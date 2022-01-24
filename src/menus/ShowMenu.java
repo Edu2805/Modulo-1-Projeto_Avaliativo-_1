@@ -177,6 +177,18 @@ public class ShowMenu {
 				case 1:
 					contCorrente++;
 					
+					/**
+					 * Gera chave da conta que inclui no primeiro dígito um sequencial gerado
+					 * automaticamente pelos contadores conteCorrente, contepoupanca e contInvestimento,
+					 * Em seguida é adicionado um - para gerar o proximo digito que é segue uma
+					 * convenção onde: 1-contas de natureza corrente
+					 * 				   2-contas de natureza poupanca
+					 * 				   3-contas de natureza investimento
+					 * Por último, adiciona mais um - seguido do numeto da agencia obtido no enum Agencia
+					 * 
+					 * A chave fica da seguinte forma: 1-1-001 --> conta de numero 1 de natureza corrente
+					 * da agencia Florianópolis
+					 */
 					String chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente).concat(Agencia.FLORIANOPOLIS.getAgencias());
 					contaCorrente = new ContaCorrente(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente, chaveContaCorrente,
 							Agencia.FLORIANOPOLIS.getAgencias(), 0.0);
