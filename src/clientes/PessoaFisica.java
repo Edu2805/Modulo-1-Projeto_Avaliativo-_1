@@ -26,6 +26,34 @@ public class PessoaFisica extends Cliente {
 	}
 
 	@Override
+	public String cadastrarEndereco() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cadastrarDataNascimento() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cadastrarLogin() {
+		
+		Scanner sc = new Scanner(System.in);
+
+		login = sc.nextLine();
+		
+		return login;
+	}
+
+	@Override
+	public String cadastrarSenha() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public String cadastrarRendaMensal() {
 
 		Scanner sc = new Scanner(System.in);
@@ -55,4 +83,15 @@ public class PessoaFisica extends Cliente {
 		return tipoConta;
 		
 	}
+
+	@Override
+	public String insereNumeroConta() {
+		
+		Scanner sc = new Scanner(System.in);
+
+		String insereConta = sc.nextLine();
+
+		return insereConta;
+	}
+	
 }

@@ -11,29 +11,43 @@ public class TratamentoExcecoes extends Exception {
 		super(error);
 	}
 
-	public boolean trataExcecaoEntradaMenu(String inteiro) {
+	public boolean trataExcecaoEntradaMenu(String entraMenu) {
 
-		return inteiro != null && inteiro.matches("[1-3]{1}");
+		return entraMenu != null && entraMenu.matches("[1-3]{1}");
 	}
 
 	public boolean trataExcecaoNomeClientes(String nome) {
 
 		return nome != null && nome.matches("^[a-zA-Z ]*");
 	}
-	
+
 	public boolean trataExcecaoCpfClientes(String cpf) {
 
 		return cpf != null && cpf.matches("[0-9]{11}");
 	}
-	
-	public boolean trataExcecaoRendaClientes(String rendaMensal) {
-		
-		return rendaMensal != null && rendaMensal.matches("[+-]?([0-9]{1,12}[.])([0-9]{2})");
-		
-	}
-	
-	public boolean trataExcecaoEscolhaAgencia(String inteiro) {
 
-		return inteiro != null && inteiro.matches("[1-2]{1}");
+	public boolean trataExcecaoValoresMonetarios(String rendaMensal) {
+
+		return rendaMensal != null && rendaMensal.matches("[+-]?([0-9]{1,12}[.])([0-9]{2})");
+	}
+
+	public boolean trataExcecaoEscolhaAgenciaCadastro(String escolheAgencia) {
+
+		return escolheAgencia != null && escolheAgencia.matches("[1-2]{1}");
+	}
+
+	public boolean trataExcecaoSaidaSistema(String saidaSiatema) {
+
+		return saidaSiatema != null && saidaSiatema.matches("[1-2]{1}");
+	}
+
+	public boolean trataExcecaoSelecionaAgenciaCorrentista(String login) {
+
+		return login != null && login.matches("[0]{2}[1-2]{1}");
+	}
+
+	public boolean trataExcecaoInserirConta(String conta) {
+
+		return conta != null && conta.matches("([0-9]{1,})-([1-2]{1})");
 	}
 }

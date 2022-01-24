@@ -1,6 +1,5 @@
 package contas;
 
-import agencias.Agencia;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import operacoes.Operacao;
@@ -14,6 +13,6 @@ public abstract class Conta implements Operacao {
 	private String rendaMensal;
 	private String numeroConta;
 	private String agencia;
-	private double saldo;
+	protected String saldo;
 	
 }

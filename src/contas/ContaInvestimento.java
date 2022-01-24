@@ -10,39 +10,39 @@ public class ContaInvestimento extends Conta {
 	private TiposInvestimentos tiposInvestimentos;
 	
 	public ContaInvestimento(String nome, String cpf, String rendaMensal, String numeroConta, String agencia,
-			double saldo) {
+			String saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public double saque() {
+	public String saque() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public double deposito() {
+	public String deposito() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public double saldo() {
+	public String saldo(String deposito, String saque, String transferencia) {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public double extrato() {
+	public String extrato() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
-	public double transferir() {
+	public String transferir() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override

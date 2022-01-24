@@ -1,43 +1,70 @@
 package contas;
 
+import java.text.DecimalFormat;
+import java.util.Locale;
+import java.util.Scanner;
+
 import agencias.Agencia;
 
 public class ContaCorrente  extends Conta{
 
 	
-	public ContaCorrente(String nome, String cpf, String rendaMensal, String numeroConta, String agencia, double saldo) {
+	public ContaCorrente(String nome, String cpf, String rendaMensal, String numeroConta, String agencia, String saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public double saque() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double deposito() {
+	public String saque() {
 		
-		return 0;
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		String saque = sc.nextLine();
+		
+		return saque;
 	}
 
 	@Override
-	public double saldo() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String deposito() {
+		
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		String depositar = sc.nextLine();
+		
+		return depositar;
 	}
 
 	@Override
-	public double extrato() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String saldo(String deposito, String saque, String transferencia) {
+		
+		double depositoConta = Double.parseDouble(deposito);
+		double saqueConta = Double.parseDouble(saque);
+		double transferenciaConta = Double.parseDouble(transferencia);
+		
+		double saldoConta = depositoConta - saqueConta - transferenciaConta;
+		
+		String saldoContaFormatado = new DecimalFormat("##############0.00").format(saldoConta);
+
+		return saldoContaFormatado;
 	}
 
 	@Override
-	public double transferir() {
+	public String extrato() {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
+	}
+
+	@Override
+	public String transferir() {
+		
+		Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		
+		String transferencia = sc.nextLine();
+		
+		return transferencia;
 	}
 
 	@Override
