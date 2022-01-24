@@ -4,7 +4,7 @@ import agencias.Agencia;
 
 public class ContaPoupanca extends Conta {
 
-	public ContaPoupanca(String nome, String cpf, double rendaMensal, int numeroConta, Agencia agencia, double saldo) {
+	public ContaPoupanca(String nome, String cpf, String rendaMensal, String numeroConta, String agencia, double saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}

@@ -9,7 +9,7 @@ public class ContaInvestimento extends Conta {
 	
 	private TiposInvestimentos tiposInvestimentos;
 	
-	public ContaInvestimento(String nome, String cpf, double rendaMensal, int numeroConta, Agencia agencia,
+	public ContaInvestimento(String nome, String cpf, String rendaMensal, String numeroConta, String agencia,
 			double saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
@@ -53,8 +53,8 @@ public class ContaInvestimento extends Conta {
 	
 	public void simulacaoInvestimento() {
 		
-		tiposInvestimentos.GOLD.getTiposInvestimentos();
-		tiposInvestimentos.PLATINUM.getTiposInvestimentos();
-		tiposInvestimentos.BLACK.getTiposInvestimentos();
+		TiposInvestimentos.GOLD.getTiposInvestimentos();
+		TiposInvestimentos.PLATINUM.getTiposInvestimentos();
+		TiposInvestimentos.BLACK.getTiposInvestimentos();
 	}
 }

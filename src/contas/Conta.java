@@ -11,9 +11,9 @@ public abstract class Conta implements Operacao {
 
 	private String nome;
 	private String cpf;
-	private double rendaMensal;
-	private int numeroConta;
-	private Agencia agencia;
+	private String rendaMensal;
+	private String numeroConta;
+	private String agencia;
 	private double saldo;
 	
 }
