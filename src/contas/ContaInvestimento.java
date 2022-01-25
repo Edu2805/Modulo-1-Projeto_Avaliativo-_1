@@ -57,4 +57,16 @@ public class ContaInvestimento extends Conta {
 		TiposInvestimentos.PLATINUM.getTiposInvestimentos();
 		TiposInvestimentos.BLACK.getTiposInvestimentos();
 	}
+
+	@Override
+	public String cadastroNomeDeUsuario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cadastroDeSenhaUsuario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,6 +1,5 @@
 package menus;
 
-import java.text.DecimalFormat;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Scanner;
@@ -24,9 +23,10 @@ public class ShowMenu {
 		Set<ContaCorrente> listaContaCorrenteClientes = new LinkedHashSet<ContaCorrente>();
 		Set<ContaPoupanca> listaContaPoupancaClientes = new LinkedHashSet<ContaPoupanca>();
 		Set<ContaInvestimento> listaContaInvestimentoClientes = new LinkedHashSet<ContaInvestimento>();
+		Set<PessoaFisica> listaDeclientes = new LinkedHashSet<PessoaFisica>();
 
 		TratamentoExcecoes trataExcecoesEntrada = new TratamentoExcecoes(null);
-		PessoaFisica clientePessoaFisica = new PessoaFisica();
+		PessoaFisica clientePessoaFisica = new PessoaFisica(null, null, null);
 		ContaCorrente contaCorrente = new ContaCorrente(null, null, null, null, null, null);
 		ContaPoupanca contaPoupanca = new ContaPoupanca(null, null, null, null, null, null);
 		ContaInvestimento contaInvestimento = new ContaInvestimento(null, null, null, null, null, null);
@@ -45,6 +45,8 @@ public class ShowMenu {
 		String rendaCadastroCliente = null;
 		String inserirNumeroAgencia = null;
 		String inserirNumeroConta = null;
+		String inserirNomeDeUsuario = null;
+		String inserirSenhaDoUsuario = null;
 		String depositoInicial = null;
 		String saldoConta = null;
 
@@ -53,17 +55,19 @@ public class ShowMenu {
 		while (true) {
 			System.out.println("#########################################################");
 			System.out.println("# Bem-vindo ao DEVInMoney, o banco parceiro da sua vida #");
-			  System.out.print("#########################################################\n");
-			
+			System.out.print("#########################################################\n");
+
 			System.out.println("\nDigite uma das opções listadas abaixo para você desfrutar de nossas soluções:\n");
 
 			while (!validacaoMenu) {
 				System.out.println("##################################################");
 				System.out.print("#                                                #\n");
-				System.out.println("#          DIGITE 1- PARA CORRENTISTA            #\n#          DIGITE 2- PARA CRIAR UMA CONTA        #\n#          DIGITE 3- PARA SAIR DO SISTEMA        #");
+				System.out.println(
+						"#          DIGITE 1- PARA CORRENTISTA            #\n#          DIGITE 2- PARA CRIAR UMA CONTA        #\n#          DIGITE 3- PARA SAIR DO SISTEMA        #");
 				System.out.print("#                                                #\n");
 				System.out.println("##################################################");
 
+				System.out.print("-->");
 				entradaMenu = sc.nextLine();
 
 				try {
@@ -148,7 +152,7 @@ public class ShowMenu {
 				while (true) {
 
 					System.out.println(
-							"Escolha o tipo de conta que você deseja abrir\nESCOLHA 1- Conta Corrente\nESCOLHA 2- Conta Poupança\nESCOLHA 3- Conta Investimento\n-->");
+							"\nEscolha o tipo de conta que você deseja abrir\nESCOLHA 1- Conta Corrente\nESCOLHA 2- Conta Poupança\nESCOLHA 3- Conta Investimento\n-->");
 					escolheConta = clientePessoaFisica.escolheTipoConta();
 
 					try {
@@ -168,7 +172,7 @@ public class ShowMenu {
 				while (true) {
 
 					System.out.println(
-							"Escolha a agência na qual você prefere abrir a sua conta\nESCOLHA 1- Florianópolis(Agência 001)\nESCOLHA 2- São José(Agência 002)\n-->");
+							"\nEscolha a agência na qual você prefere abrir a sua conta\nESCOLHA 1- Florianópolis (Agência 001)\nESCOLHA 2- São José (Agência 002)\n-->");
 					escolheAgencia = clientePessoaFisica.escolheAgencia();
 
 					try {
@@ -185,7 +189,48 @@ public class ShowMenu {
 					}
 				}
 
-//################################################################################################
+				while (!validacaoMenu) {
+
+					System.out.print(
+							"\nCadastre o seu nome de usuário, somente letras que podem ser maiúsculas e munúsculas: ");
+					inserirNomeDeUsuario = contaCorrente.cadastroNomeDeUsuario();
+
+					try {
+
+						if (!trataExcecoesEntrada.trataExcecaoNomeDeUsuario(inserirNomeDeUsuario)) {
+							throw new TratamentoExcecoes(
+									"Formato não permitido!\nCadastre o seu nome de usuário, somente letras que podem ser maiúsculas e munúsculas!"); // melhorar
+
+						} else {
+
+							break;
+						}
+
+					} catch (TratamentoExcecoes e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+					}
+				}
+
+				while (!validacaoMenu) {
+
+					System.out.print("\nCadastre a sua senha de quatro letras e dois numeros: ");
+					inserirSenhaDoUsuario = contaCorrente.cadastroDeSenhaUsuario();
+
+					try {
+
+						if (!trataExcecoesEntrada.trataExcecaoSenhaDeUsuario(inserirSenhaDoUsuario)) {
+							throw new TratamentoExcecoes(
+									"Senha inválida!\nInsira novamente a sua senha, quatro letras e dois numeros!");
+
+						} else {
+
+							break;
+						}
+
+					} catch (TratamentoExcecoes e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+					}
+				}
 
 				if (Integer.parseInt(escolheAgencia) == 1) {
 					switch (Integer.parseInt(escolheConta)) {
@@ -229,10 +274,15 @@ public class ShowMenu {
 
 						saldoConta = contaCorrente.saldo(depositoInicial, "0.00", "0.00");
 
-						System.out.println("O saldo inicial da sua nova conta é de " + saldoConta);
+						System.out.println("\nO saldo inicial da sua nova conta é de " + saldoConta);
 						contaCorrente = new ContaCorrente(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
 								chaveContaCorrente, Agencia.FLORIANOPOLIS.getAgencias(), saldoConta);
 						listaContaCorrenteClientes.add(contaCorrente);
+
+						// Verificar a necessidade dos construtores...
+						clientePessoaFisica = new PessoaFisica(inserirNomeDeUsuario, cpfCadastroCliente,
+								rendaCadastroCliente);
+						listaDeclientes.add(clientePessoaFisica);
 
 						break;
 
@@ -257,8 +307,14 @@ public class ShowMenu {
 						listaContaInvestimentoClientes.add(contaInvestimento);
 						break;
 					}
+					
+					for (ContaCorrente corrente : listaContaCorrenteClientes) {
+						System.out.println(corrente);
+
+					}
 
 				} else if (Integer.parseInt(escolheAgencia) == 2) {
+
 					switch (Integer.parseInt(escolheConta)) {
 
 					case 1:
@@ -291,30 +347,35 @@ public class ShowMenu {
 						listaContaInvestimentoClientes.add(contaInvestimento);
 						break;
 					}
+
+					for (ContaCorrente corrente : listaContaCorrenteClientes) {
+						System.out.println(corrente);
+
+					}
 				}
-
-				for (ContaCorrente corrente : listaContaCorrenteClientes) {
-					System.out.println(corrente);
-
-				}
-
+				
+				
+				
+				//confirmar cadastro....
+				
 				// Perguntar se deseja abrir mais alguma conta que não seja outra que já tenha
 				// sido criada...
-				
-//################################################################################################
-				
+
+				// ################################################################################################
+
 			} else if (Integer.parseInt(entradaMenu) == 1) {
 
-				System.out.print("\nOlá, informe a sua agencia com três dígitos: ");
+				System.out.print("\nOlá, ");
 				while (!validacaoMenu) {
 
-					System.out.print("\nInforme a sua agencia com três dígitos");
+					System.out.print("Informe a sua agencia com três dígitos: ");
 					inserirNumeroAgencia = clientePessoaFisica.escolheAgencia();
 
 					try {
 
 						if (!trataExcecoesEntrada.trataExcecaoSelecionaAgenciaCorrentista(inserirNumeroAgencia)) {
-							throw new TratamentoExcecoes("Digite uma opção válida!");
+							throw new TratamentoExcecoes(
+									"Digite uma ag	agência válida: Agência 001 para Florianópolis ou agência 002 para São José!");
 						} else {
 
 							break;
@@ -333,8 +394,7 @@ public class ShowMenu {
 					try {
 
 						if (!trataExcecoesEntrada.trataExcecaoInserirConta(inserirNumeroConta)) {
-							throw new TratamentoExcecoes(
-									"Digite uma conta válida: Agência 001 para Florianópolis ou agência 002 para São José!");
+							throw new TratamentoExcecoes("Digite uma conta válida!");
 						} else {
 
 							break;
@@ -344,20 +404,17 @@ public class ShowMenu {
 						System.out.println("\n" + e.getMessage() + "\n");
 					}
 				}
-				
-				
-				
-				//Continuar......
+
 				while (!validacaoMenu) {
 
 					System.out.print("\nInsira o seu nome de usuário: ");
-					inserirNumeroConta = sc.nextLine();
+					inserirNomeDeUsuario = contaCorrente.cadastroNomeDeUsuario();
 
 					try {
 
-						if (!trataExcecoesEntrada.trataExcecaoInserirConta(inserirNumeroConta)) {
-							throw new TratamentoExcecoes(
-									"Digite uma conta válida: Agência 001 para Florianópolis ou agência 002 para São José!");
+						if (!trataExcecoesEntrada.trataExcecaoNomeDeUsuario(inserirNomeDeUsuario)) {
+							throw new TratamentoExcecoes("Usuário inválido, digite o nome do seu usuario!"); // melhorar
+																												// menssagem...
 						} else {
 
 							break;
@@ -367,12 +424,32 @@ public class ShowMenu {
 						System.out.println("\n" + e.getMessage() + "\n");
 					}
 				}
-				
-				
-				
-				
-				
+
+				while (!validacaoMenu) {
+
+					System.out.print("\nInsira a sua senha de quatro letras e dois numeros: ");
+					inserirSenhaDoUsuario = contaCorrente.cadastroDeSenhaUsuario();
+
+					try {
+
+						if (!trataExcecoesEntrada.trataExcecaoSenhaDeUsuario(inserirSenhaDoUsuario)) {
+							throw new TratamentoExcecoes(
+									"Senha inválida!\nDigite novamente a sua senha, quatro letras e dois numeros!"); // melhorar
+																														// menssagem...
+						} else {
+
+							break;
+						}
+
+					} catch (TratamentoExcecoes e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+					}
+				}
+
 			}
+			
+			// verificar os tipos primitivos...
+			// iniciar as operações...
 
 			secaoCliente++;
 			while (!validacaoMenu) {

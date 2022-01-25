@@ -7,5 +7,7 @@ public interface Operacao {
 	public String saldo(String deposito, String saque, String transferencia);
 	public String extrato();
 	public String transferir();
+	public String cadastroNomeDeUsuario();
+	public String cadastroDeSenhaUsuario();
 	public void alteraDadosCadastrais();
 }

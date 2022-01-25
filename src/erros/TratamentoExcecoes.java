@@ -50,4 +50,16 @@ public class TratamentoExcecoes extends Exception {
 
 		return conta != null && conta.matches("([0-9]{1,})-([1-2]{1})");
 	}
+	
+	
+	//inserir mais possibilidades
+	public boolean trataExcecaoNomeDeUsuario(String nome) {
+
+		return nome != null && nome.matches("^[a-zA-Z ]*");
+	}
+	
+	public boolean trataExcecaoSenhaDeUsuario(String nome) {
+
+		return nome != null && nome.matches("^[a-zA-Z ]{4}[0-9]{2}");
+	}
 }

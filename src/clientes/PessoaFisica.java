@@ -6,6 +6,12 @@ import erros.TratamentoExcecoes;
 
 public class PessoaFisica extends Cliente {
 
+	//verificar a necessidade...
+	public PessoaFisica(String nome, String cpf, String endereco) {
+		super(nome, cpf, endereco);
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String cadastrarNome() {
 		Scanner sc = new Scanner(System.in);

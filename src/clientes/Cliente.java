@@ -10,6 +10,14 @@ public abstract class Cliente implements CadastroDaConta{
 	protected String senha;
 	protected String rendaMensal;
 	
+	
+	public Cliente(String nome, String cpf, String endereco) {
+		super();
+		this.nome = nome;
+		this.cpf = cpf;
+		this.endereco = endereco;
+	}
+
 	protected String getNome() {
 		return nome;
 	}

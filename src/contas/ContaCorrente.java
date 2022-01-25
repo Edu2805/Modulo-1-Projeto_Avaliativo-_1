@@ -1,10 +1,9 @@
 package contas;
 
+
 import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Scanner;
-
-import agencias.Agencia;
 
 public class ContaCorrente  extends Conta{
 
@@ -68,6 +67,27 @@ public class ContaCorrente  extends Conta{
 	}
 
 	@Override
+	public String cadastroNomeDeUsuario() {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		String nomeDeUsuario = sc.nextLine();
+		
+		return nomeDeUsuario;
+	}
+	
+	@Override
+	public String cadastroDeSenhaUsuario() {
+		
+		
+		Scanner sc = new Scanner(System.in);
+		
+		String senhaDeUsuario = sc.nextLine();
+		
+		return senhaDeUsuario;
+	}
+	
+	@Override
 	public void alteraDadosCadastrais() {
 		// TODO Auto-generated method stub
 		
@@ -77,5 +97,4 @@ public class ContaCorrente  extends Conta{
 		return 0;
 		
 	}
-
 }

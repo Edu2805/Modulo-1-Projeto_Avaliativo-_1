@@ -49,4 +49,16 @@ public class ContaPoupanca extends Conta {
 		
 	}
 
+	@Override
+	public String cadastroNomeDeUsuario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String cadastroDeSenhaUsuario() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
