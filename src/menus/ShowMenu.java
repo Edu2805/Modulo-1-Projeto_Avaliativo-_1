@@ -38,6 +38,7 @@ public class ShowMenu {
 		int contInvestimento = 0;
 
 		String entradaMenu = null;
+		String opcoesMenuBanco = null;
 		String escolheAgencia = null;
 		String escolheConta = null;
 		String nomeCadastroCliente = null;
@@ -49,6 +50,10 @@ public class ShowMenu {
 		String inserirSenhaDoUsuario = null;
 		String depositoInicial = null;
 		String saldoConta = null;
+		String chaveContaCorrente = null;
+		String chaveContaPoupanca = null;
+		String chaveContainvestimento = null;
+		String armazenaAgencia = null;
 
 		boolean validacaoMenu = false;
 
@@ -63,7 +68,7 @@ public class ShowMenu {
 				System.out.println("##################################################");
 				System.out.print("#                                                #\n");
 				System.out.println(
-						"#          DIGITE 1- PARA CORRENTISTA            #\n#          DIGITE 2- PARA CRIAR UMA CONTA        #\n#          DIGITE 3- PARA SAIR DO SISTEMA        #");
+						"#          DIGITE 1- PARA CRIAR UMA CONTA        #\n#          DIGITE 2- PARA SAIR DO SISTEMA        #");
 				System.out.print("#                                                #\n");
 				System.out.println("##################################################");
 
@@ -86,7 +91,7 @@ public class ShowMenu {
 
 //################################################################################################
 
-			if (Integer.parseInt(entradaMenu) == 2) {
+			if (Integer.parseInt(entradaMenu) == 1) {
 
 				while (true) {
 					System.out.println("Digite seus dados para abrir a sua conta\n");
@@ -232,6 +237,10 @@ public class ShowMenu {
 					}
 				}
 
+				System.out.println("Confirme os seus dados");
+				// Fazer confirmação dos dados
+				// Fazer um loop ou setar aqui mesmo....
+
 				if (Integer.parseInt(escolheAgencia) == 1) {
 					switch (Integer.parseInt(escolheConta)) {
 
@@ -249,7 +258,7 @@ public class ShowMenu {
 						 * A chave fica da seguinte forma: 1-1-001 --> conta de numero 1 de natureza
 						 * corrente da agencia Florianópolis
 						 */
-						String chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente)
+						chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente)
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
 
 						while (true) {
@@ -284,12 +293,14 @@ public class ShowMenu {
 								rendaCadastroCliente);
 						listaDeclientes.add(clientePessoaFisica);
 
+						armazenaAgencia = Agencia.FLORIANOPOLIS.getAgencias();
+
 						break;
 
 					case 2:
 						contPoupanca++;
 
-						String chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
+						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
 						contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
 								chaveContaPoupanca, Agencia.FLORIANOPOLIS.getAgencias(), "0.00");
@@ -299,7 +310,7 @@ public class ShowMenu {
 					case 3:
 						contInvestimento++;
 
-						String chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
+						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
 						contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
 								rendaCadastroCliente, chaveContainvestimento, Agencia.FLORIANOPOLIS.getAgencias(),
@@ -307,7 +318,7 @@ public class ShowMenu {
 						listaContaInvestimentoClientes.add(contaInvestimento);
 						break;
 					}
-					
+
 					for (ContaCorrente corrente : listaContaCorrenteClientes) {
 						System.out.println(corrente);
 
@@ -320,7 +331,7 @@ public class ShowMenu {
 					case 1:
 						contCorrente++;
 
-						String chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente)
+						chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente)
 								.concat(Agencia.SAOJOSE.getAgencias());
 						contaCorrente = new ContaCorrente(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
 								chaveContaCorrente, Agencia.SAOJOSE.getAgencias(), "0.00");
@@ -330,7 +341,7 @@ public class ShowMenu {
 					case 2:
 						contPoupanca++;
 
-						String chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
+						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
 								.concat(Agencia.SAOJOSE.getAgencias());
 						contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
 								chaveContaPoupanca, Agencia.SAOJOSE.getAgencias(), "0.00");
@@ -340,7 +351,7 @@ public class ShowMenu {
 					case 3:
 						contInvestimento++;
 
-						String chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
+						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
 								.concat(Agencia.SAOJOSE.getAgencias());
 						contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
 								rendaCadastroCliente, chaveContainvestimento, Agencia.SAOJOSE.getAgencias(), "0.00");
@@ -352,20 +363,25 @@ public class ShowMenu {
 						System.out.println(corrente);
 
 					}
+					for (ContaPoupanca poupanca : listaContaPoupancaClientes) {
+						System.out.println(poupanca);
+
+					}
+					for (ContaInvestimento inestimento : listaContaInvestimentoClientes) {
+						System.out.println(inestimento);
+
+					}
 				}
-				
-				
-				
-				//confirmar cadastro....
-				
+
+				// confirmar cadastro e mostrar os dados pro cliente
+				// armazenar no array
+
 				// Perguntar se deseja abrir mais alguma conta que não seja outra que já tenha
 				// sido criada...
 
 				// ################################################################################################
 
-			} else if (Integer.parseInt(entradaMenu) == 1) {
-
-				System.out.print("\nOlá, ");
+				System.out.print("\nOlá, NOME");
 				while (!validacaoMenu) {
 
 					System.out.print("Informe a sua agencia com três dígitos: ");
@@ -446,40 +462,196 @@ public class ShowMenu {
 					}
 				}
 
-			}
-			
-			// verificar os tipos primitivos...
-			// iniciar as operações...
+				// verificar os tipos primitivos...
 
-			secaoCliente++;
-			while (!validacaoMenu) {
+				boolean menuOperacoes = false;
+				while (!menuOperacoes) {
 
-				System.out.print("Deseja sair do sistema?\nDIGITE 1- Para permanecer\nDIGITE 2- Para sair\n-->");
-				acessoSistema = sc.nextLine();
+					System.out.println(
+							"\n--------------------------------------------------------------------------------------");
+					System.out.print("Olá " + nomeCadastroCliente + ", ");
+					System.out.print("Agência: " + armazenaAgencia + ", ");
+					System.out.println("Conta: " + chaveContaCorrente);
 
-				try {
+					System.out.println("##############################################################");
+					System.out.println("#    Esse é seu menu de operações, o que deseja fazer?       #");
+					System.out.print("##############################################################\n");
 
-					if (!trataExcecoesEntrada.trataExcecaoEntradaMenu(acessoSistema)) {
-						throw new TratamentoExcecoes("Digite uma opção válida!");
-					} else {
+					System.out.println("##############################################################");
+					System.out.print("#                                                            #\n");
+					System.out.println(
+							"#          DIGITE 1- PARA EXTRATO CONTA CORRENTE             #\n#          DIGITE 2- PARA EXTRATO CONTA POUPANÇA             #\n#          DIGITE 3- PARA EXTRATO CONTA INVESTIMENTO         #\n#          DIGITE 4- SAQUE                                   #\n#          DIGITE 5- TRANSFERENCIA                           #\n#          DIGITE 6- DEPÓSITO                                #\n#          DIGITE 7- SALDO NA TELA                           #\n#          DIGITE 8- SAIR                                    #");
+					System.out.print("#                                                            #\n");
+					System.out.println("##############################################################");
+
+					System.out.print("-->");
+					opcoesMenuBanco = sc.nextLine();
+
+					while (true) {
+						try {
+
+							if (!trataExcecoesEntrada.trataExcecaoMenuBanco(opcoesMenuBanco)) {
+								throw new TratamentoExcecoes("Digite uma opção válida!");
+							} else {
+
+								break;
+							}
+
+						} catch (TratamentoExcecoes e) {
+							System.out.println("\n" + e.getMessage() + "\n");
+						}
+					}
+
+					switch (Integer.parseInt(opcoesMenuBanco)) {
+
+					case 1:
+
+						break;
+
+					case 2:
+
+						break;
+
+					case 3:
+
+						break;
+
+					case 4:
+
+						while (true) {
+							
+							System.out.print(
+									"Escolha qual a conta você deseja realizar o saque\n1- CORRENTE\n2- POUPANCA\n3- INVESTIMENTO\n-->");
+							
+							String escolheContaMenuSaque = sc.nextLine();
+							
+							while (true) {
+								try {
+
+									if (!trataExcecoesEntrada.trataExcecaoMenuSaque(escolheContaMenuSaque)) {
+										throw new TratamentoExcecoes("Digite uma opção válida!");
+									} else {
+
+										break;
+									}
+
+								} catch (TratamentoExcecoes e) {
+									System.out.println("\n" + e.getMessage() + "\n");
+								}
+							}
+
+							if (Integer.parseInt(escolheContaMenuSaque) == 1) {
+								
+								if (contaCorrente.cadastroNomeDeUsuario() == null) {
+
+									System.out.println("Você ainda não possui conta corrente, escolha outra conta!");
+
+								} else {
+
+									for (ContaCorrente contaCorrenteCliente : listaContaCorrenteClientes) {
+
+										System.out.print("Seu saldo é de: " + contaCorrenteCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+										String saqueConta = contaCorrente.saque();
+										contaCorrente.setSaldo(saqueConta);
+										
+									}
+									
+									System.out.println("\nSaque realizado com sucesso!\n");
+									System.out.print("Saldo atual: " + contaCorrente.getSaldo() + "\n");
+									
+									for (ContaCorrente corrente : listaContaCorrenteClientes) {
+										System.out.println("\n" + corrente);
+
+									}
+									
+									break;
+								}
+
+							} else if (Integer.parseInt(escolheContaMenuSaque) == 2) {
+
+								if (contaPoupanca.cadastroNomeDeUsuario() == null) {
+
+									System.out.println("Você ainda não possui conta poupança, escolha outra conta!");
+
+								} else {
+
+									for (ContaPoupanca contaPoupancaCliente : listaContaPoupancaClientes) {
+
+										System.out.print("Seu saldo é de: " + contaPoupancaCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+
+										
+									}
+									break;
+								}
+
+							} else if (Integer.parseInt(escolheContaMenuSaque) == 2) {
+
+								if (contaInvestimento.cadastroNomeDeUsuario() == null) {
+
+									System.out
+											.println("Você ainda não possui conta investimento, escolha outra conta!");
+
+								} else {
+
+									for (ContaInvestimento contaInvestimentoCliente : listaContaInvestimentoClientes) {
+
+										System.out.print("Seu saldo é de: " + contaInvestimentoCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+										
+										
+									}
+									break;
+								}
+							}
+						}
+						
+						break;
+					case 5:
+						System.out.println("Caiu aqui");
+						break;
+
+					case 6:
+
+						break;
+
+					case 7:
 
 						break;
 					}
 
-				} catch (TratamentoExcecoes e) {
-					System.out.println("\n" + e.getMessage() + "\n");
+					secaoCliente++;
+				}
+			} else if (Integer.parseInt(entradaMenu) == 1) {
+
+				while (!validacaoMenu) {
+
+					System.out.print("Deseja sair do sistema?\nDIGITE 1- Para permanecer\nDIGITE 2- Para sair\n-->");
+					acessoSistema = sc.nextLine();
+
+					try {
+
+						if (!trataExcecoesEntrada.trataExcecaoEntradaMenu(acessoSistema)) {
+							throw new TratamentoExcecoes("Digite uma opção válida!");
+						} else {
+
+							break;
+						}
+
+					} catch (TratamentoExcecoes e) {
+						System.out.println("\n" + e.getMessage() + "\n");
+					}
+				}
+
+				if (Integer.parseInt(acessoSistema) == 1) {
+
+				} else if (Integer.parseInt(acessoSistema) == 2) {
+
+					break;
 				}
 			}
-
-			if (Integer.parseInt(acessoSistema) == 1) {
-
-			} else if (Integer.parseInt(acessoSistema) == 2) {
-
-				break;
-			}
-
-			sc.close();
-
 		}
+		sc.close();
 	}
 }

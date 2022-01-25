@@ -13,7 +13,7 @@ public class TratamentoExcecoes extends Exception {
 
 	public boolean trataExcecaoEntradaMenu(String entraMenu) {
 
-		return entraMenu != null && entraMenu.matches("[1-3]{1}");
+		return entraMenu != null && entraMenu.matches("[1-2]{1}");
 	}
 
 	public boolean trataExcecaoNomeClientes(String nome) {
@@ -61,5 +61,15 @@ public class TratamentoExcecoes extends Exception {
 	public boolean trataExcecaoSenhaDeUsuario(String nome) {
 
 		return nome != null && nome.matches("^[a-zA-Z ]{4}[0-9]{2}");
+	}
+	
+	public boolean trataExcecaoMenuBanco(String entraMenu) {
+
+		return entraMenu != null && entraMenu.matches("[1-7]{1}");
+	}
+	
+	public boolean trataExcecaoMenuSaque(String entraMenu) {
+
+		return entraMenu != null && entraMenu.matches("[1-3]{1}");
 	}
 }
