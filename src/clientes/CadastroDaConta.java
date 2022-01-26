@@ -8,7 +8,7 @@ public interface CadastroDaConta {
 	public String cadastrarDataNascimento();
 	public String cadastrarLogin();
 	public String cadastrarSenha();
-	public String cadastrarRendaMensal();
+	public double cadastrarRendaMensal();
 	public String escolheAgencia();
 	public String insereNumeroConta();
 	public String escolheTipoConta();

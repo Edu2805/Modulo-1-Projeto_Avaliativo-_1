@@ -7,7 +7,7 @@ public class GeradorNumeroConta implements GeraNumeroConta{
 		
 		String contaCorrente = Integer.toString(corrente);
 		
-		String geraNumeroContaCorrente = contaCorrente.concat("-").concat("1").concat("-");
+		String geraNumeroContaCorrente = contaCorrente.concat("-").concat("1");
 		
 		return geraNumeroContaCorrente;
 	}
@@ -17,7 +17,7 @@ public class GeradorNumeroConta implements GeraNumeroConta{
 		
 		String contaPoupanca = Integer.toString(poupanca);
 		
-		String geraNumeroContaPoupanca = contaPoupanca.concat("-").concat("2").concat("-");
+		String geraNumeroContaPoupanca = contaPoupanca.concat("-").concat("2");
 		
 		return geraNumeroContaPoupanca;
 	}
@@ -27,7 +27,7 @@ public class GeradorNumeroConta implements GeraNumeroConta{
 		
 		String contaInvestimento = Integer.toString(investimento);
 		
-		String geraNumeroContaInvestimento = contaInvestimento.concat("-").concat("3").concat("-");
+		String geraNumeroContaInvestimento = contaInvestimento.concat("-").concat("3");
 		
 		return geraNumeroContaInvestimento;
 	}

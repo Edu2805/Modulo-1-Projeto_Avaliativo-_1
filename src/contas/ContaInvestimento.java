@@ -9,28 +9,28 @@ public class ContaInvestimento extends Conta {
 	
 	private TiposInvestimentos tiposInvestimentos;
 	
-	public ContaInvestimento(String nome, String cpf, String rendaMensal, String numeroConta, String agencia,
-			String saldo) {
+	public ContaInvestimento(String nome, String cpf, double rendaMensal, String numeroConta, String agencia,
+			double saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public String saque() {
+	public double saque(double valorSaque) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public String deposito() {
+	public double deposito(double valorDeposito) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
-	public String saldo(String deposito, String saque, String transferencia) {
+	public double saldo(double saque) {
 		// TODO Auto-generated method stub
-		return null;
+		return 0;
 	}
 
 	@Override
@@ -40,9 +40,14 @@ public class ContaInvestimento extends Conta {
 	}
 
 	@Override
-	public String transferir() {
-		// TODO Auto-generated method stub
-		return null;
+	public double transferir(double valorTransferencia) {
+if (getSaldo() <= 0) {
+			
+		} else {
+			saldo -= valorTransferencia;
+		}
+
+		return getSaldo();
 	}
 
 	@Override

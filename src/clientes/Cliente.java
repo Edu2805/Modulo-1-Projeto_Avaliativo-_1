@@ -8,7 +8,7 @@ public abstract class Cliente implements CadastroDaConta{
 	protected String dataNascimento;
 	protected String login;
 	protected String senha;
-	protected String rendaMensal;
+	protected double rendaMensal;
 	
 	
 	public Cliente(String nome, String cpf, String endereco) {
@@ -18,55 +18,68 @@ public abstract class Cliente implements CadastroDaConta{
 		this.endereco = endereco;
 	}
 
+
 	protected String getNome() {
 		return nome;
 	}
-	
+
+
 	protected void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+
 	protected String getCpf() {
 		return cpf;
 	}
-	
-	protected String getRendaMensal() {
-		return rendaMensal;
-	}
-	
-	protected void setRendaMensal(String rendaMensal) {
-		this.rendaMensal = rendaMensal;
-	}
 
-	public String getEndereco() {
+	protected String getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(String endereco) {
+
+	protected void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
+
 
 	public String getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(String dataNascimento) {
+
+	protected void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public String getLogin() {
+
+	protected String getLogin() {
 		return login;
 	}
+
 
 	public void setLogin(String login) {
 		this.login = login;
 	}
 
-	public String getSenha() {
+
+	protected String getSenha() {
 		return senha;
 	}
 
-	public void setSenha(String senha) {
+
+	protected void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+
+	protected double getRendaMensal() {
+		return rendaMensal;
+	}
+
+
+	protected void setRendaMensal(double rendaMensal) {
+		this.rendaMensal = rendaMensal;
+	}
+	
 }

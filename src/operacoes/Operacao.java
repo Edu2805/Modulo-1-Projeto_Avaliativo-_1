@@ -2,11 +2,11 @@ package operacoes;
 
 public interface Operacao {
 
-	public String saque();
-	public String deposito();
-	public String saldo(String deposito, String saque, String transferencia);
+	public double saque(double valorSaque);
+	public double deposito(double valorDeposito);
+	public double saldo(double saque);
 	public String extrato();
-	public String transferir();
+	public double transferir(double valorTransferencia);
 	public String cadastroNomeDeUsuario();
 	public String cadastroDeSenhaUsuario();
 	public void alteraDadosCadastrais();

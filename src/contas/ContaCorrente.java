@@ -1,52 +1,44 @@
 package contas;
 
-
 import java.text.DecimalFormat;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class ContaCorrente  extends Conta{
+public class ContaCorrente extends Conta {
 
-	
-	public ContaCorrente(String nome, String cpf, String rendaMensal, String numeroConta, String agencia, String saldo) {
+	public ContaCorrente(String nome, String cpf, double rendaMensal, String numeroConta, String agencia,
+			double saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public String saque() {
-		
-		Locale.setDefault(Locale.US);
-		Scanner sc = new Scanner(System.in);
-		
-		String saque = sc.nextLine();
-		
-		return saque;
+	public double saque(double valorSaque) {
+
+		if (getSaldo() <= 0) {
+			
+		} else {
+			saldo -= valorSaque;
+		}
+
+		return getSaldo();
 	}
 
 	@Override
-	public String deposito() {
-		
-		Locale.setDefault(Locale.US);
-		Scanner sc = new Scanner(System.in);
-		
-		String depositar = sc.nextLine();
-		
-		return depositar;
+	public double deposito(double valorDeposito) {
+
+		saldo += valorDeposito;
+
+		return getSaldo();
 	}
 
 	@Override
-	public String saldo(String deposito, String saque, String transferencia) {
-		
-		double depositoConta = Double.parseDouble(deposito);
-		double saqueConta = Double.parseDouble(saque);
-		double transferenciaConta = Double.parseDouble(transferencia);
-		
-		double saldoConta = depositoConta - saqueConta - transferenciaConta;
-		
-		String saldoContaFormatado = new DecimalFormat("##############0.00").format(saldoConta);
+	public double saldo(double saldo) {
 
-		return saldoContaFormatado;
+		//verificar para não somar ao saldo
+		saldo += chequeEspecial();
+
+		return saldo;
 	}
 
 	@Override
@@ -56,45 +48,47 @@ public class ContaCorrente  extends Conta{
 	}
 
 	@Override
-	public String transferir() {
-		
-		Locale.setDefault(Locale.US);
-		Scanner sc = new Scanner(System.in);
-		
-		String transferencia = sc.nextLine();
-		
-		return transferencia;
+	public double transferir(double valorTransferencia) {
+
+		if (getSaldo() <= 0) {
+			
+		} else {
+			saldo -= valorTransferencia;
+		}
+
+		return getSaldo();
 	}
 
 	@Override
 	public String cadastroNomeDeUsuario() {
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		String nomeDeUsuario = sc.nextLine();
-		
+
 		return nomeDeUsuario;
 	}
-	
+
 	@Override
 	public String cadastroDeSenhaUsuario() {
-		
-		
+
 		Scanner sc = new Scanner(System.in);
-		
+
 		String senhaDeUsuario = sc.nextLine();
-		
+
 		return senhaDeUsuario;
 	}
-	
+
 	@Override
 	public void alteraDadosCadastrais() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public double chequeEspecial() {
-		return 0;
 		
+		
+		return 0;
+
 	}
 }

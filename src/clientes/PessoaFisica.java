@@ -2,7 +2,7 @@ package clientes;
 
 import java.util.Scanner;
 
-import erros.TratamentoExcecoes;
+import erros.TratamentoExcecoesTexto;
 
 public class PessoaFisica extends Cliente {
 
@@ -60,11 +60,11 @@ public class PessoaFisica extends Cliente {
 	}
 	
 	@Override
-	public String cadastrarRendaMensal() {
+	public double cadastrarRendaMensal() {
 
 		Scanner sc = new Scanner(System.in);
 
-		rendaMensal = sc.nextLine();
+		rendaMensal = sc.nextDouble();
 
 		return rendaMensal;
 	}

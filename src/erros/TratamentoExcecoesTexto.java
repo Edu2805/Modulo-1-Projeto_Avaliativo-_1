@@ -1,19 +1,19 @@
 package erros;
 
-public class TratamentoExcecoes extends Exception {
+public class TratamentoExcecoesTexto extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public TratamentoExcecoes(String error) {
+	public TratamentoExcecoesTexto(String error) {
 		super(error);
 	}
 
 	public boolean trataExcecaoEntradaMenu(String entraMenu) {
 
-		return entraMenu != null && entraMenu.matches("[1-2]{1}");
+		return entraMenu != null && entraMenu.matches("[1-3]{1}");
 	}
 
 	public boolean trataExcecaoNomeClientes(String nome) {
@@ -24,11 +24,6 @@ public class TratamentoExcecoes extends Exception {
 	public boolean trataExcecaoCpfClientes(String cpf) {
 
 		return cpf != null && cpf.matches("[0-9]{11}");
-	}
-
-	public boolean trataExcecaoValoresMonetarios(String rendaMensal) {
-
-		return rendaMensal != null && rendaMensal.matches("[+-]?([0-9]{1,12}[.])([0-9]{2})");
 	}
 
 	public boolean trataExcecaoEscolhaAgenciaCadastro(String escolheAgencia) {
@@ -51,8 +46,6 @@ public class TratamentoExcecoes extends Exception {
 		return conta != null && conta.matches("([0-9]{1,})-([1-2]{1})");
 	}
 	
-	
-	//inserir mais possibilidades
 	public boolean trataExcecaoNomeDeUsuario(String nome) {
 
 		return nome != null && nome.matches("^[a-zA-Z ]*");
@@ -71,5 +64,10 @@ public class TratamentoExcecoes extends Exception {
 	public boolean trataExcecaoMenuSaque(String entraMenu) {
 
 		return entraMenu != null && entraMenu.matches("[1-3]{1}");
+	}
+	
+	public boolean trataExcecaoConfirmaDados(String saidaSiatema) {
+
+		return saidaSiatema != null && saidaSiatema.matches("[1-2]{1}");
 	}
 }
