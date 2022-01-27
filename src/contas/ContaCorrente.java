@@ -1,7 +1,5 @@
 package contas;
 
-import java.text.DecimalFormat;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class ContaCorrente extends Conta {
@@ -12,31 +10,83 @@ public class ContaCorrente extends Conta {
 		// TODO Auto-generated constructor stub
 	}
 
+	protected double valorChequeEspecial;
+
+	public double defineValorChequeEspecial(double valorRenda) {
+
+		double criterio = 1.5;
+
+		double valorAprovado = criterio * valorRenda;
+
+		return valorAprovado;
+	}
+
 	@Override
 	public double saque(double valorSaque) {
 
-		if (getSaldo() <= 0) {
-			
-		} else {
+		if (valorSaque <= saldo) {
 			saldo -= valorSaque;
+
+			System.out.println("\nSaque realizado com sucesso!\n");
+
+		} else if (valorSaque == saldo + valorChequeEspecial) {
+
+			double descontaSaldo = valorSaque - saldo;
+			valorSaque -= descontaSaldo;
+			saldo -= valorSaque;
+
+			valorChequeEspecial -= descontaSaldo;
+
+		} else if (valorSaque >= saldo) {
+			System.out.println("\nVocê está usando o seu limite de cheque especial\n");
+
+			double descontaSaldo = valorSaque - saldo;
+			valorSaque -= descontaSaldo;
+			saldo -= valorSaque;
+
+			valorChequeEspecial -= descontaSaldo;
+
+			if (valorChequeEspecial <= valorSaque) {
+				System.out
+						.println("\nVocê já consumiu todo o seu saldo e limite de cheque especialseu cheque especial");
+				System.out.println("ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ");
+
+				valorChequeEspecial += descontaSaldo;
+				saldo += valorSaque;
+
+			}
+
+		}
+		return getSaldo();
+	}
+
+	@Override
+	public double deposito(double valorDeposito, double limiteAprovado) {
+
+		double saldoDevedor = limiteAprovado - valorChequeEspecial;
+
+		if (valorDeposito > saldoDevedor) {
+
+			valorChequeEspecial += saldoDevedor;
+			saldo += valorDeposito - saldoDevedor;
+
+		} else if (valorDeposito == saldoDevedor) {
+
+			valorChequeEspecial += saldoDevedor;
+
+		} else {
+
+			double valorPendente = saldoDevedor - valorDeposito;
+
+			valorChequeEspecial += valorDeposito;
+
 		}
 
 		return getSaldo();
 	}
 
 	@Override
-	public double deposito(double valorDeposito) {
-
-		saldo += valorDeposito;
-
-		return getSaldo();
-	}
-
-	@Override
-	public double saldo(double saldo) {
-
-		//verificar para não somar ao saldo
-		saldo += chequeEspecial();
+	public double saldo(double valorChequeEspecial) {
 
 		return saldo;
 	}
@@ -50,12 +100,38 @@ public class ContaCorrente extends Conta {
 	@Override
 	public double transferir(double valorTransferencia) {
 
-		if (getSaldo() <= 0) {
-			
-		} else {
+		if (valorTransferencia <= saldo) {
 			saldo -= valorTransferencia;
-		}
 
+			System.out.println("\nSaque realizado com sucesso!\n");
+
+		} else if (valorTransferencia == saldo + valorChequeEspecial) {
+
+			double descontaSaldo = valorTransferencia - saldo;
+			valorTransferencia -= descontaSaldo;
+			saldo -= valorTransferencia;
+
+			valorChequeEspecial -= descontaSaldo;
+
+		} else if (valorTransferencia >= saldo) {
+			System.out.println("\nVocê está usando o seu limite de cheque especial\n");
+
+			double descontaSaldo = valorTransferencia - saldo;
+			valorTransferencia -= descontaSaldo;
+			saldo -= valorTransferencia;
+
+			valorChequeEspecial -= descontaSaldo;
+
+			if (valorChequeEspecial <= valorTransferencia) {
+				System.out.println("\nVocê já consumiu todo o seu saldo e limite de cheque especial");
+				System.out.println("ˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆˆ");
+
+				valorChequeEspecial += descontaSaldo;
+				saldo += valorTransferencia;
+
+			}
+
+		}
 		return getSaldo();
 	}
 
@@ -85,10 +161,13 @@ public class ContaCorrente extends Conta {
 
 	}
 
-	public double chequeEspecial() {
-		
-		
-		return 0;
+	public double getValorChequeEspecial() {
 
+		return valorChequeEspecial;
 	}
+
+	public double setValorChequeEspecial(double valorChequeEspecial) {
+		return this.valorChequeEspecial = valorChequeEspecial;
+	}
+	
 }

@@ -53,4 +53,14 @@ public abstract class Conta implements Operacao {
 	public double getSaldo() {
 		return saldo;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Conta [nome=" + nome + ", cpf=" + cpf + ", rendaMensal=" + rendaMensal + ", numeroConta=" + numeroConta
+				+ ", agencia=" + agencia + ", saldo=" + saldo + "]";
+	}
+	
+	
+	
 }

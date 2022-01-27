@@ -12,4 +12,5 @@ public interface CadastroDaConta {
 	public String escolheAgencia();
 	public String insereNumeroConta();
 	public String escolheTipoConta();
+	public double escolheValorChequeEspecial(double valorSolicitado);
 }

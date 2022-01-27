@@ -6,19 +6,22 @@ public class ListaContas implements RelatoriosContas{
 	
 	@Override
 	public void listaContaCorrente() {
-		// TODO Auto-generated method stub
+		
+		//apresentar com uma lista as contas cadastradas
 		
 	}
 
 	@Override
 	public void listaContaPoupanca() {
-		// TODO Auto-generated method stub
+		
+		//apresentar com uma lista as contas cadastradas
 		
 	}
 
 	@Override
 	public void listaContaInvestimento() {
-		// TODO Auto-generated method stub
+		
+		//apresentar com uma lista as contas cadastradas
 		
 	}
 

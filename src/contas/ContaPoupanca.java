@@ -6,42 +6,48 @@ import agencias.Agencia;
 
 public class ContaPoupanca extends Conta {
 
-	public ContaPoupanca(String nome, String cpf, double rendaMensal, String numeroConta, String agencia, double saldo) {
+	public ContaPoupanca(String nome, String cpf, double rendaMensal, String numeroConta, String agencia,
+			double saldo) {
 		super(nome, cpf, rendaMensal, numeroConta, agencia, saldo);
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public void simulacaoDeInvestimento() {
 		
 		
-		
 	}
-	
+
 	@Override
 	public double saque(double valorSaque) {
 
-		if (getSaldo() <= 0) {
-			
-		} else {
+		if (valorSaque <= saldo) {
 			saldo -= valorSaque;
+
+			System.out.println("\nSaque realizado com sucesso!\n");
+
+		} else {
+			System.out.println("\nVocê não possui saldo suficiente para realizar esta operação!\n");
 		}
-
+		
 		return getSaldo();
 	}
 
 	@Override
-	public double deposito(double valorDeposito) {
+	public double deposito(double valorDeposito, double limiteAprovado) {
 
+		//O atributo limiteAprovado não se aplica neste tipo de conta
 		saldo += valorDeposito;
-
+		
+		
 		return getSaldo();
 	}
 
 	@Override
-	public double saldo(double saldo) {
+	public double saldo(double valorChequeEspecial) {
 
-		saldo += chequeEspecial();
-
+		
 		return saldo;
 	}
 
@@ -54,12 +60,14 @@ public class ContaPoupanca extends Conta {
 	@Override
 	public double transferir(double valorTransferencia) {
 
-		if (getSaldo() <= 0) {
-			
-		} else {
+		if (valorTransferencia <= saldo) {
 			saldo -= valorTransferencia;
-		}
 
+			System.out.println("\nSaque realizado com sucesso!\n");
+
+		} else {
+			System.out.println("\nVocê não possui saldo suficiente para realizar esta operação!\n");
+		}
 		return getSaldo();
 	}
 
@@ -89,10 +97,4 @@ public class ContaPoupanca extends Conta {
 
 	}
 
-	private double chequeEspecial() {
-		//Não se aplica a este tipo de conta
-		
-		return 0;
-
-	}
 }

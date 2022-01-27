@@ -1,13 +1,12 @@
 package menus;
 
-import java.text.DecimalFormat;
-import java.util.InputMismatchException;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.Set;
 import agencias.Agencia;
 import agencias.GeradorNumeroConta;
+import agencias.TipoDeConta;
 import clientes.PessoaFisica;
 import contas.ContaCorrente;
 import contas.ContaInvestimento;
@@ -30,7 +29,7 @@ public class ShowMenu {
 
 		TratamentoExcecoesTexto trataExcecoesEntradaTexto = new TratamentoExcecoesTexto(null);
 		TratamentoExcecoesNumeros trataExcecoesEntradaNumeros = new TratamentoExcecoesNumeros();
-		PessoaFisica clientePessoaFisica = new PessoaFisica(null, null, null);
+		PessoaFisica clientePessoaFisica = new PessoaFisica();
 		ContaCorrente contaCorrente = new ContaCorrente(null, null, 0, null, null, 0);
 		ContaPoupanca contaPoupanca = new ContaPoupanca(null, null, 0, null, null, 0);
 		ContaInvestimento contaInvestimento = new ContaInvestimento(null, null, 0, null, null, 0);
@@ -40,15 +39,21 @@ public class ShowMenu {
 		int contCorrente = 0;
 		int contPoupanca = 0;
 		int contInvestimento = 0;
+		int contChequeEspecial = 0;
 
 		double rendaCadastroCliente = 0;
 		double depositoInicial = 0;
-		double saldoConta = 0;
+		double saldoContaCorrente = 0;
+		double saldoContaPoupanca = 0;
+		double saldoContaInvestimento = 0;
+		double valor = 0;
+		double chequeEspecialPreAprovado = 0;
 
 		String entradaMenu = null;
 		String opcoesMenuBanco = null;
 		String escolheAgencia = null;
 		String escolheConta = null;
+		String escolheChequeEspecial = null;
 		String nomeCadastroCliente = null;
 		String cpfCadastroCliente = null;
 		String inserirNumeroAgencia = null;
@@ -60,6 +65,10 @@ public class ShowMenu {
 		String chaveContainvestimento = null;
 		String armazenaAgencia = null;
 		String tranformaValores = null;
+		String verificaTipoConta = "";
+		String confirmartransferencia = null;
+		String menuConfirmaDepositoPoupanca = null;
+		String menuConfirmaDepositoInvestimento = null;
 
 		boolean validacaoMenu = false;
 
@@ -97,7 +106,7 @@ public class ShowMenu {
 				}
 			}
 
-//################################################################################################
+//####################################################################################################################################################################
 
 			if (Integer.parseInt(entradaMenu) == 1) {
 
@@ -123,8 +132,6 @@ public class ShowMenu {
 						}
 					}
 
-					// Fazer a confirmação dos dados....
-
 					while (true) {
 						System.out.print("CPF: ");
 
@@ -147,11 +154,11 @@ public class ShowMenu {
 					while (true) {
 						System.out.print("Renda Mensal: ");
 
-						trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
-
 						trataExcecoesEntradaNumeros.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
-						System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
-						if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || trataExcecoesEntradaNumeros.verificaEntradaIncorreta() == 0.00) {
+						rendaCadastroCliente = trataExcecoesEntradaNumeros.getValorTratado();
+						// System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+						if (!trataExcecoesEntradaNumeros.isTrataSintaxe()
+								|| trataExcecoesEntradaNumeros.verificaEntradaIncorreta() == 0.00) {
 							System.out.println(
 									"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
 
@@ -168,10 +175,11 @@ public class ShowMenu {
 
 						System.out.println(
 								"\nEscolha o tipo de conta que você deseja abrir\nESCOLHA 1- Conta Corrente\nESCOLHA 2- Conta Poupança\nESCOLHA 3- Conta Investimento\n-->");
+
 						escolheConta = clientePessoaFisica.escolheTipoConta();
 
 						try {
-							// Reutilização do mesmo método que trata os erros do menu inicial do sistema
+
 							if (!trataExcecoesEntradaTexto.trataExcecaoEntradaMenu(escolheConta)) {
 								throw new TratamentoExcecoesTexto("Digite corretamente uma das opções listadas!");
 							} else {
@@ -308,7 +316,7 @@ public class ShowMenu {
 					}
 				}
 
-//################################################################################################
+//####################################################################################################################################################################
 
 				if (Integer.parseInt(escolheAgencia) == 1) {
 					switch (Integer.parseInt(escolheConta)) {
@@ -316,17 +324,6 @@ public class ShowMenu {
 					case 1:
 						contCorrente++;
 
-						/**
-						 * Gera chave da conta que inclui no primeiro dígito um sequencial gerado
-						 * automaticamente pelos contadores conteCorrente, contepoupanca e
-						 * contInvestimento, Em seguida é adicionado um - para gerar o proximo digito
-						 * que segue uma convenção onde: 1-contas de natureza corrente 2-contas de
-						 * natureza poupanca 3-contas de natureza investimento Por último, adiciona mais
-						 * um - seguido do numeto da agencia obtido no enum Agencia
-						 * 
-						 * A chave fica da seguinte forma: 1-1-001 --> conta de numero 1 de natureza
-						 * corrente da agencia Florianópolis
-						 */
 						chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente).concat("-")
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
 
@@ -365,60 +362,184 @@ public class ShowMenu {
 								}
 							} else {
 								depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
-								contaCorrente.deposito(depositoInicial);
+								contaCorrente.deposito(depositoInicial, 0.0);
 								break;
 							}
 
 							break;
 						}
 
-						saldoConta = contaCorrente.getSaldo();
+						saldoContaCorrente = contaCorrente.getSaldo();
 
-						System.out.println(
-								"\nO saldo inicial da sua nova conta é de " + String.format("%.2f", saldoConta));
+						System.out.println("\nO saldo inicial da sua nova conta é de "
+								+ String.format("%.2f", saldoContaCorrente));
 						contaCorrente = new ContaCorrente(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
-								chaveContaCorrente, Agencia.FLORIANOPOLIS.getAgencias(), saldoConta);
+								chaveContaCorrente, Agencia.FLORIANOPOLIS.getAgencias(), saldoContaCorrente);
 						listaContaCorrenteClientes.add(contaCorrente);
 
-						// Verificar a necessidade dos construtores...
-//						clientePessoaFisica = new PessoaFisica(inserirNomeDeUsuario, cpfCadastroCliente,
-//								rendaCadastroCliente);
-//						listaDeclientes.add(clientePessoaFisica);
-
 						armazenaAgencia = Agencia.FLORIANOPOLIS.getAgencias();
+
+						chequeEspecialPreAprovado = contaCorrente.setValorChequeEspecial(rendaCadastroCliente);
 
 						break;
 
 					case 2:
 						contPoupanca++;
 
-						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
+						verificaTipoConta = TipoDeConta.POUPANCA.getTipoDeConta();
+						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca).concat("-")
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
-						contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
-								chaveContaPoupanca, Agencia.FLORIANOPOLIS.getAgencias(), 0.0);
-						listaContaPoupancaClientes.add(contaPoupanca);
+
+						System.out.println("\nDeseja realizar o primeiro depósito na conta?\n1- SIM\n2- NÃO\n-->");
+
+						while (true) {
+
+							menuConfirmaDepositoPoupanca = sc.nextLine();
+
+							try {
+
+								if (!trataExcecoesEntradaTexto
+										.trataExcecaoConfirmaDados(menuConfirmaDepositoPoupanca)) {
+									throw new TratamentoExcecoesTexto(
+											"Opção inválida, escolha uma das opções listadas no menu");
+								} else {
+
+									break;
+								}
+
+							} catch (TratamentoExcecoesTexto e) {
+								System.out.println("\n" + e.getMessage() + "\n");
+							}
+						}
+
+						if (Integer.parseInt(menuConfirmaDepositoPoupanca) == 1) {
+
+							while (true) {
+								System.out.print("\nDigite o valor que você deseja depositar: ");
+								depositoInicial = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+
+								trataExcecoesEntradaNumeros
+										.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+								System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+								if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || depositoInicial == 0.00) {
+									System.out.println(
+											"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+									if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+									}
+								} else {
+									depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
+									contaPoupanca.deposito(depositoInicial, 0.0);
+									break;
+								}
+
+								break;
+							}
+
+							saldoContaPoupanca = contaPoupanca.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaPoupanca));
+
+							contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContaPoupanca, Agencia.FLORIANOPOLIS.getAgencias(),
+									saldoContaPoupanca);
+							listaContaPoupancaClientes.add(contaPoupanca);
+
+						} else if (Integer.parseInt(menuConfirmaDepositoPoupanca) == 2) {
+
+							saldoContaPoupanca = contaPoupanca.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaPoupanca));
+
+							contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContaPoupanca, Agencia.FLORIANOPOLIS.getAgencias(),
+									saldoContaPoupanca);
+							listaContaPoupancaClientes.add(contaPoupanca);
+
+						}
 						break;
 
 					case 3:
 						contInvestimento++;
 
-						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
+						verificaTipoConta = TipoDeConta.INVESTIMENTO.getTipoDeConta();
+						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento).concat("-")
 								.concat(Agencia.FLORIANOPOLIS.getAgencias());
-						contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
-								rendaCadastroCliente, chaveContainvestimento, Agencia.FLORIANOPOLIS.getAgencias(), 0.0);
-						listaContaInvestimentoClientes.add(contaInvestimento);
+
+						System.out.println("\nDeseja realizar o primeiro depósito na conta?\n1- SIM\n2- NÃO\n-->");
+
+						while (true) {
+
+							menuConfirmaDepositoInvestimento = sc.nextLine();
+
+							try {
+
+								if (!trataExcecoesEntradaTexto
+										.trataExcecaoConfirmaDados(menuConfirmaDepositoInvestimento)) {
+									throw new TratamentoExcecoesTexto(
+											"Opção inválida, escolha uma das opções listadas no menu");
+								} else {
+
+									break;
+								}
+
+							} catch (TratamentoExcecoesTexto e) {
+								System.out.println("\n" + e.getMessage() + "\n");
+							}
+						}
+
+						if (Integer.parseInt(menuConfirmaDepositoInvestimento) == 1) {
+
+							while (true) {
+								System.out.print("\nDigite o valor que você deseja depositar: ");
+								depositoInicial = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+
+								trataExcecoesEntradaNumeros
+										.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+								System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+								if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || depositoInicial == 0.00) {
+									System.out.println(
+											"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+									if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+									}
+								} else {
+									depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
+									contaInvestimento.deposito(depositoInicial, 0.0);
+									break;
+								}
+
+								break;
+							}
+
+							saldoContaInvestimento = contaInvestimento.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaInvestimento));
+
+							contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContainvestimento, Agencia.FLORIANOPOLIS.getAgencias(),
+									saldoContaInvestimento);
+							listaContaInvestimentoClientes.add(contaInvestimento);
+
+						} else if (Integer.parseInt(menuConfirmaDepositoInvestimento) == 2) {
+
+							saldoContaInvestimento = contaInvestimento.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaInvestimento));
+
+							contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContainvestimento, Agencia.FLORIANOPOLIS.getAgencias(),
+									saldoContaInvestimento);
+							listaContaInvestimentoClientes.add(contaInvestimento);
+
+						}
 						break;
-					}
-
-					// Para testes
-					for (ContaCorrente corrente : listaContaCorrenteClientes) {
-
-						System.out.println(corrente.getNome());
-						System.out.println(corrente.getCpf());
-						System.out.println(corrente.getRendaMensal());
-						System.out.println(corrente.getAgencia());
-						System.out.println(corrente.getNumeroConta());
-
 					}
 
 				} else if (Integer.parseInt(escolheAgencia) == 2) {
@@ -428,41 +549,245 @@ public class ShowMenu {
 					case 1:
 						contCorrente++;
 
-						chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente)
+						chaveContaCorrente = geraNumeroConta.geradorDeContaCorrente(contCorrente).concat("-")
 								.concat(Agencia.SAOJOSE.getAgencias());
+
+						System.out.println(
+								"\nAnote também seu numero de conta e agência, você irá precisar para ter acesso a sua plataforma de serviços\n");
+
+						if (Integer.parseInt(escolheConta) == 1) {
+
+							System.out.println("Tipo de conta: Conta Corrente");
+
+						} else if (Integer.parseInt(escolheConta) == 2) {
+
+							System.out.println("Tipo de conta: Conta Poupança");
+
+						} else if (Integer.parseInt(escolheConta) == 3) {
+
+							System.out.println("Tipo de conta: Conta Investimento");
+						}
+						System.out.println("Numero da conta: " + geraNumeroConta.geradorDeContaCorrente(contCorrente));
+						System.out.println("Agência: " + Agencia.SAOJOSE.getAgencias());
+
+						while (true) {
+							System.out.print(
+									"\nPara ativar a sua conta, será preciso fazer um dépósito de no mínimo R$ 1.00\nDigite o valor do depósito: ");
+							depositoInicial = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+
+							trataExcecoesEntradaNumeros
+									.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+							System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+							if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || depositoInicial == 0.00) {
+								System.out.println(
+										"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+								if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+								}
+							} else {
+								depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
+								contaCorrente.deposito(depositoInicial, 0.0);
+								break;
+							}
+
+							break;
+						}
+
+						saldoContaCorrente = contaCorrente.getSaldo();
+
+						System.out.println("\nO saldo inicial da sua nova conta é de "
+								+ String.format("%.2f", saldoContaCorrente));
 						contaCorrente = new ContaCorrente(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
-								chaveContaCorrente, Agencia.SAOJOSE.getAgencias(), 0.0);
+								chaveContaCorrente, Agencia.SAOJOSE.getAgencias(), saldoContaCorrente);
 						listaContaCorrenteClientes.add(contaCorrente);
+
+						armazenaAgencia = Agencia.SAOJOSE.getAgencias();
+
+						chequeEspecialPreAprovado = contaCorrente.setValorChequeEspecial(rendaCadastroCliente);
+
 						break;
 
 					case 2:
 						contPoupanca++;
 
-						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca)
+						verificaTipoConta = TipoDeConta.POUPANCA.getTipoDeConta();
+						chaveContaPoupanca = geraNumeroConta.geradorDeContaPoupanca(contPoupanca).concat("-")
 								.concat(Agencia.SAOJOSE.getAgencias());
-						contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente, rendaCadastroCliente,
-								chaveContaPoupanca, Agencia.SAOJOSE.getAgencias(), 0.0);
-						listaContaPoupancaClientes.add(contaPoupanca);
+
+						System.out.println("\nDeseja realizar o primeiro depósito na conta?\n1- SIM\n2- NÃO\n-->");
+
+						while (true) {
+
+							menuConfirmaDepositoPoupanca = sc.nextLine();
+
+							try {
+
+								if (!trataExcecoesEntradaTexto
+										.trataExcecaoConfirmaDados(menuConfirmaDepositoPoupanca)) {
+									throw new TratamentoExcecoesTexto(
+											"Opção inválida, escolha uma das opções listadas no menu");
+								} else {
+
+									break;
+								}
+
+							} catch (TratamentoExcecoesTexto e) {
+								System.out.println("\n" + e.getMessage() + "\n");
+							}
+						}
+
+						if (Integer.parseInt(menuConfirmaDepositoPoupanca) == 1) {
+
+							while (true) {
+								System.out.print("\nDigite o valor que você deseja depositar: ");
+								depositoInicial = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+
+								trataExcecoesEntradaNumeros
+										.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+								System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+								if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || depositoInicial == 0.00) {
+									System.out.println(
+											"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+									if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+									}
+								} else {
+									depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
+									contaPoupanca.deposito(depositoInicial, 0.0);
+									break;
+								}
+
+								break;
+							}
+
+							saldoContaPoupanca = contaPoupanca.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaPoupanca));
+
+							contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContaPoupanca, Agencia.SAOJOSE.getAgencias(),
+									saldoContaPoupanca);
+							listaContaPoupancaClientes.add(contaPoupanca);
+
+						} else if (Integer.parseInt(menuConfirmaDepositoPoupanca) == 2) {
+
+							saldoContaPoupanca = contaPoupanca.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaPoupanca));
+
+							contaPoupanca = new ContaPoupanca(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContaPoupanca, Agencia.SAOJOSE.getAgencias(),
+									saldoContaPoupanca);
+							listaContaPoupancaClientes.add(contaPoupanca);
+
+						}
 						break;
 
 					case 3:
 						contInvestimento++;
 
-						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento)
+						verificaTipoConta = TipoDeConta.INVESTIMENTO.getTipoDeConta();
+						chaveContainvestimento = geraNumeroConta.geradorDeContaInvestimento(contInvestimento).concat("-")
 								.concat(Agencia.SAOJOSE.getAgencias());
-						contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
-								rendaCadastroCliente, chaveContainvestimento, Agencia.SAOJOSE.getAgencias(), 0.0);
-						listaContaInvestimentoClientes.add(contaInvestimento);
+
+						System.out.println("\nDeseja realizar o primeiro depósito na conta?\n1- SIM\n2- NÃO\n-->");
+
+						while (true) {
+
+							menuConfirmaDepositoInvestimento = sc.nextLine();
+
+							try {
+
+								if (!trataExcecoesEntradaTexto
+										.trataExcecaoConfirmaDados(menuConfirmaDepositoInvestimento)) {
+									throw new TratamentoExcecoesTexto(
+											"Opção inválida, escolha uma das opções listadas no menu");
+								} else {
+
+									break;
+								}
+
+							} catch (TratamentoExcecoesTexto e) {
+								System.out.println("\n" + e.getMessage() + "\n");
+							}
+						}
+
+						if (Integer.parseInt(menuConfirmaDepositoInvestimento) == 1) {
+
+							while (true) {
+								System.out.print("\nDigite o valor que você deseja depositar: ");
+								depositoInicial = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+
+								trataExcecoesEntradaNumeros
+										.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+								System.out.println(trataExcecoesEntradaNumeros.getValorTratado());
+								if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || depositoInicial == 0.00) {
+									System.out.println(
+											"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+									if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+									}
+								} else {
+									depositoInicial = trataExcecoesEntradaNumeros.getValorTratado();
+									contaInvestimento.deposito(depositoInicial, 0.0);
+									break;
+								}
+
+								break;
+							}
+
+							saldoContaInvestimento = contaInvestimento.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaInvestimento));
+
+							contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContainvestimento, Agencia.SAOJOSE.getAgencias(),
+									saldoContaInvestimento);
+							listaContaInvestimentoClientes.add(contaInvestimento);
+
+						} else if (Integer.parseInt(menuConfirmaDepositoInvestimento) == 2) {
+
+							saldoContaInvestimento = contaInvestimento.getSaldo();
+
+							System.out.println("\nO saldo inicial da sua nova conta é de "
+									+ String.format("%.2f", saldoContaInvestimento));
+
+							contaInvestimento = new ContaInvestimento(nomeCadastroCliente, cpfCadastroCliente,
+									rendaCadastroCliente, chaveContainvestimento, Agencia.SAOJOSE.getAgencias(),
+									saldoContaInvestimento);
+							listaContaInvestimentoClientes.add(contaInvestimento);
+
+						}
 						break;
 					}
 
-					for (ContaCorrente corrente : listaContaCorrenteClientes) {
-						System.out.println(corrente);
-
-					}
 				}
 
-// ################################################################################################
+				// Para teste
+				System.out.println("Verificações");
+
+				for (ContaCorrente contasCorrente : listaContaCorrenteClientes) {
+
+					System.out.println(contasCorrente.toString() + "\n");
+				}
+				
+				for (ContaPoupanca contasPoupanca : listaContaPoupancaClientes) {
+
+					System.out.println(contasPoupanca.toString() + "\n");
+				}
+				
+				for (ContaInvestimento contasInvestimento : listaContaInvestimentoClientes) {
+
+					System.out.println(contasInvestimento.toString() + "\n");
+				}
+
+//####################################################################################################################################################################
 
 			} else if (Integer.parseInt(entradaMenu) == 2) {
 				while (!validacaoMenu) {
@@ -512,8 +837,8 @@ public class ShowMenu {
 					try {
 
 						if (!trataExcecoesEntradaTexto.trataExcecaoNomeDeUsuario(inserirNomeDeUsuario)) {
-							throw new TratamentoExcecoesTexto("Usuário inválido, digite o nome do seu usuario!"); // melhorar
-																													// menssagem...
+							throw new TratamentoExcecoesTexto("Usuário inválido, digite o nome do seu usuario!");
+
 						} else {
 
 							break;
@@ -533,8 +858,8 @@ public class ShowMenu {
 
 						if (!trataExcecoesEntradaTexto.trataExcecaoSenhaDeUsuario(inserirSenhaDoUsuario)) {
 							throw new TratamentoExcecoesTexto(
-									"Senha inválida!\nDigite novamente a sua senha, quatro letras e dois numeros!"); // melhorar
-																														// menssagem...
+
+									"Senha inválida!\nDigite novamente a sua senha, quatro letras e dois numeros!");
 						} else {
 
 							break;
@@ -594,15 +919,15 @@ public class ShowMenu {
 					case 1:
 
 						break;
-
+//####################################################################################################################################################################
 					case 2:
 
 						break;
-
+//####################################################################################################################################################################
 					case 3:
 
 						break;
-
+//####################################################################################################################################################################
 					case 4:
 
 						while (true) {
@@ -628,68 +953,253 @@ public class ShowMenu {
 							}
 
 							if (Integer.parseInt(escolheContaMenuSaque) == 1) {
-
-								if (contaCorrente.cadastroNomeDeUsuario() == null) {
+								if (contaCorrente.cadastroNomeDeUsuario() == null) {// verificar...
 
 									System.out.println("Você ainda não possui conta corrente, escolha outra conta!");
 
 								} else {
 
-									for (ContaCorrente contaCorrenteCliente : listaContaCorrenteClientes) {
+									System.out.println("Seu saldo é de: "
+											+ String.format("%.2f", contaCorrente.getSaldo()) + "\n");
+									System.out.println("O total do seu cheque especial é de: "
+											+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
 
-										double saqueConta = 0.0;
-										while (true) {
-											System.out.print("Seu saldo é de: "
-													+ String.format("%.2f", contaCorrenteCliente.getSaldo())
-													+ "\nQuanto você deseja sacar?-->");
+									while (true) {
+										System.out.print("Quanto você deseja sacar? ");
 
-											saqueConta = trataExcecoesEntradaNumeros.verificaEntradaIncorreta();
+										trataExcecoesEntradaNumeros
+												.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+										valor = trataExcecoesEntradaNumeros.getValorTratado();
+										if (!trataExcecoesEntradaNumeros.isTrataSintaxe()
+												|| trataExcecoesEntradaNumeros.verificaEntradaIncorreta() == 0.00) {
+											System.out.println(
+													"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
 
-											trataExcecoesEntradaNumeros
-													.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
-											
-											if (!trataExcecoesEntradaNumeros.isTrataSintaxe() || saqueConta == 0.00) {
-												System.out.println(
-														"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+											if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
 
-												if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
-
-												}
-											} else {
-												
-												if (contaCorrente.getSaldo() >= saqueConta) {
-													saqueConta = trataExcecoesEntradaNumeros.getValorTratado();
-													contaCorrente.saque(saqueConta);
-													
-													if(contaCorrente.getSaldo() == saqueConta) {
-														System.out.println("\nSaldo zerado!\n");
-													} else {
-														System.out.println("\nSaque realizado com sucesso!\n");
-													}
-													
-													break;
-												} //else if (contaCorrente.getSaldo() < 1000.00) {
-
-													// chamar o limite de crédito...se houver...
-												//} 
-											else {
-													System.out.println(
-															"\nVocê não possui limite sufuciente para essa operação\n");
-													break;
-												}
-												
 											}
-
+										} else {
+											valor = trataExcecoesEntradaNumeros.getValorTratado();
+											break;
 										}
-
 									}
+
+									contaCorrente.saque(valor);
 
 									System.out.print(
 											"Saldo atual: " + String.format("%.2f", contaCorrente.getSaldo()) + "\n");
+									System.out.println("O total do seu cheque especial é de: "
+											+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
 
-									for (ContaCorrente corrente : listaContaCorrenteClientes) {
-										System.out.println("\n" + corrente);
+									break;
+								}
 
+							} else if (Integer.parseInt(escolheContaMenuSaque) == 2) {
+
+								if (contaPoupanca.cadastroNomeDeUsuario() == null) {
+
+									System.out.println("Você ainda não possui conta poupança, escolha outra conta!");
+
+								} else {
+
+									for (ContaPoupanca contaPoupancaCliente : listaContaPoupancaClientes) {
+
+										System.out.print("Seu saldo é de: " + contaPoupancaCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+
+									}
+									break;
+								}
+
+							} else if (Integer.parseInt(escolheContaMenuSaque) == 2) {
+
+								if (contaInvestimento.cadastroNomeDeUsuario() == null) {
+
+									System.out
+											.println("Você ainda não possui conta investimento, escolha outra conta!");
+
+								} else {
+
+									for (ContaInvestimento contaInvestimentoCliente : listaContaInvestimentoClientes) {
+
+										System.out.print("Seu saldo é de: " + contaInvestimentoCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+
+									}
+									break;
+								}
+							}
+						}
+
+						break;
+//####################################################################################################################################################################
+					case 5:
+
+						while (true) {
+
+							System.out.print(
+									"\nEscolha de qual conta você deseja realizar a transferência\n1- CORRENTE\n2- POUPANCA\n3- INVESTIMENTO\n-->");
+
+							String escolheContaMenuSaque = sc.nextLine();
+
+							while (true) {
+								try {
+
+									if (!trataExcecoesEntradaTexto.trataExcecaoMenuSaque(escolheContaMenuSaque)) {
+										throw new TratamentoExcecoesTexto("Digite uma opção válida!");
+									} else {
+
+										break;
+									}
+
+								} catch (TratamentoExcecoesTexto e) {
+									System.out.println("\n" + e.getMessage() + "\n");
+								}
+							}
+
+							if (Integer.parseInt(escolheContaMenuSaque) == 1) {
+								if (contaCorrente.cadastroNomeDeUsuario() == null) {// verificar...
+
+									System.out.println("Você ainda não possui conta corrente, escolha outra conta!");
+
+								} else {
+
+									while (!validacaoMenu) {
+
+										System.out.print("Digite o número da agência de destino com três dígitos: ");
+										inserirNumeroAgencia = clientePessoaFisica.escolheAgencia();
+
+										try {
+
+											if (!trataExcecoesEntradaTexto
+													.trataExcecaoSelecionaAgenciaCorrentista(inserirNumeroAgencia)) {
+												throw new TratamentoExcecoesTexto(
+														"Digite uma ag	agência válida: Agência 001 para Florianópolis ou agência 002 para São José!");
+											} else {
+
+												break;
+											}
+
+										} catch (TratamentoExcecoesTexto e) {
+											System.out.println("\n" + e.getMessage() + "\n");
+										}
+									}
+
+									while (!validacaoMenu) {
+
+										System.out.print(
+												"\nInforme o numero da sua conta de destino seguido do dígito: Ex: 1-1: ");
+										inserirNumeroConta = clientePessoaFisica.insereNumeroConta();
+
+										try {
+
+											if (!trataExcecoesEntradaTexto
+													.trataExcecaoInserirConta(inserirNumeroConta)) {
+												throw new TratamentoExcecoesTexto("Digite uma conta válida!");
+											} else {
+
+												break;
+											}
+
+										} catch (TratamentoExcecoesTexto e) {
+											System.out.println("\n" + e.getMessage() + "\n");
+										}
+									}
+
+									String verificaAgencia = inserirNumeroConta.concat("-")
+											.concat(inserirNumeroAgencia);// usar para verificacao
+
+									System.out.println("\nConfira os dados da agência de destino");
+
+									if (inserirNumeroAgencia.equals(Agencia.FLORIANOPOLIS.getAgencias())) {
+
+										System.out.println(
+												"\nAgência Florianópolis: " + Agencia.FLORIANOPOLIS.getAgencias() + "");
+
+									} else if (inserirNumeroAgencia.equals(Agencia.SAOJOSE.getAgencias())) {
+
+										System.out.println("\nAgência São José: " + Agencia.SAOJOSE.getAgencias() + "");
+									} else {
+										System.out.println("\nOutro banco");
+									}
+
+									if (TipoDeConta.CORRENTE.getTipoDeConta()
+											.equals(inserirNumeroConta.substring(2, 3))) {
+
+										System.out.println("\nConta Corrente: " + inserirNumeroConta + "\n");
+
+									} else if (TipoDeConta.POUPANCA.getTipoDeConta()
+											.equals(inserirNumeroConta.substring(2, 3))) {
+
+										System.out.println("\nConta Poupança: " + inserirNumeroConta + "\n");
+
+									} else if (TipoDeConta.INVESTIMENTO.getTipoDeConta()
+											.equals(inserirNumeroConta.substring(2, 3))) {
+
+										System.out.println("\nConta Investimento: " + inserirNumeroConta + "\n");
+
+									} else {
+										System.out.println("\nConta de outro banco\n");
+									}
+
+									// ver depois pra puxar nome....
+
+									System.out.println(
+											"Seu saldo é de: " + String.format("%.2f", contaCorrente.getSaldo()));
+									System.out.println("O total do seu cheque especial é de: "
+											+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
+
+									while (true) {
+										System.out.print("Quanto você deseja transferir? ");
+
+										trataExcecoesEntradaNumeros
+												.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+										valor = trataExcecoesEntradaNumeros.getValorTratado();
+										if (!trataExcecoesEntradaNumeros.isTrataSintaxe()
+												|| trataExcecoesEntradaNumeros.verificaEntradaIncorreta() == 0.00) {
+											System.out.println(
+													"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+											if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+											}
+										} else {
+											valor = trataExcecoesEntradaNumeros.getValorTratado();
+											break;
+										}
+									}
+
+									while (true) {
+
+										System.out
+												.println("\nVocê confirma a oparação?\n1- Para SIM\n2- Para NÃO\n-->");
+										confirmartransferencia = clientePessoaFisica.escolheAgencia();
+
+										try {
+
+											if (!trataExcecoesEntradaTexto
+													.trataExcecaoConfirmaDados(confirmartransferencia)) {
+												throw new TratamentoExcecoesTexto(
+														"Digite corretamente o numero correspondente a agência!");
+											} else {
+
+												break;
+											}
+
+										} catch (TratamentoExcecoesTexto e) {
+											System.out.println("\n" + e.getMessage() + "\n");
+										}
+									}
+
+									if (Integer.parseInt(confirmartransferencia) == 1) {
+										contaCorrente.transferir(valor);
+										System.out.print("Saldo atual: "
+												+ String.format("%.2f", contaCorrente.getSaldo()) + "\n");
+										System.out.println("O total do seu cheque especial é de: "
+												+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
+										break;
+									} else {
+										System.out.println("\nOperação cancelada\n");
 									}
 
 									break;
@@ -733,19 +1243,121 @@ public class ShowMenu {
 						}
 
 						break;
-					case 5:
-
-						break;
-
+//####################################################################################################################################################################
 					case 6:
 
-						break;
+						while (true) {
 
+							System.out.print(
+									"\nEscolha qual a conta você deseja realizar o depósito\n1- CORRENTE\n2- POUPANCA\n3- INVESTIMENTO\n-->");
+
+							String escolheContaMenu = sc.nextLine();
+
+							while (true) {
+								try {
+
+									if (!trataExcecoesEntradaTexto.trataExcecaoMenuSaque(escolheContaMenu)) {
+										throw new TratamentoExcecoesTexto("Digite uma opção válida!");
+									} else {
+
+										break;
+									}
+
+								} catch (TratamentoExcecoesTexto e) {
+									System.out.println("\n" + e.getMessage() + "\n");
+								}
+							}
+
+							if (Integer.parseInt(escolheContaMenu) == 1) {
+								if (contaCorrente.cadastroNomeDeUsuario() == null) {// verificar...
+
+									System.out.println("Você ainda não possui conta corrente, escolha outra conta!");
+
+								} else {
+
+									System.out.println(
+											"Seu saldo é de: " + String.format("%.2f", contaCorrente.getSaldo()));
+									System.out.println("O total do seu cheque especial é de: "
+											+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
+
+									while (true) {
+										System.out.print("Quanto você deseja depositar? ");
+
+										trataExcecoesEntradaNumeros
+												.trataValorDeEntrada(trataExcecoesEntradaNumeros.getValorTratado());
+										valor = trataExcecoesEntradaNumeros.getValorTratado();
+										if (!trataExcecoesEntradaNumeros.isTrataSintaxe()
+												|| trataExcecoesEntradaNumeros.verificaEntradaIncorreta() == 0.00) {
+											System.out.println(
+													"\nValor incorreto, digite apenas números, use o ponto para separar as casas decimais\nVocê deve inserir as casas decimais mesmo que seja zero.\n");
+
+											if (trataExcecoesEntradaNumeros.getValorTratado() == 0.0) {
+
+											}
+										} else {
+											valor = trataExcecoesEntradaNumeros.getValorTratado();
+											break;
+										}
+									}
+
+									contaCorrente.deposito(valor, chequeEspecialPreAprovado);
+
+									System.out.print(
+											"Saldo atual: " + String.format("%.2f", contaCorrente.getSaldo()) + "\n");
+									System.out.println("O total do seu cheque especial é de: "
+											+ String.format("%.2f", contaCorrente.getValorChequeEspecial()));
+
+									break;
+								}
+
+							} else if (Integer.parseInt(escolheContaMenu) == 2) {
+
+								if (contaPoupanca.cadastroNomeDeUsuario() == null) {
+
+									System.out.println("Você ainda não possui conta poupança, escolha outra conta!");
+
+								} else {
+
+									for (ContaPoupanca contaPoupancaCliente : listaContaPoupancaClientes) {
+
+										System.out.print("Seu saldo é de: " + contaPoupancaCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+
+									}
+									break;
+								}
+
+							} else if (Integer.parseInt(escolheContaMenu) == 2) {
+
+								if (contaInvestimento.cadastroNomeDeUsuario() == null) {
+
+									System.out
+											.println("Você ainda não possui conta investimento, escolha outra conta!");
+
+								} else {
+
+									for (ContaInvestimento contaInvestimentoCliente : listaContaInvestimentoClientes) {
+
+										System.out.print("Seu saldo é de: " + contaInvestimentoCliente.getSaldo()
+												+ "\nQuanto você deseja sacar?-->");
+
+									}
+									break;
+								}
+							}
+						}
+
+						break;
+//####################################################################################################################################################################
 					case 7:
 
 						break;
-					}
+//####################################################################################################################################################################
+					case 8:
 
+						break;
+					}
+//####################################################################################################################################################################
 					secaoCliente++;
 				}
 

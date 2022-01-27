@@ -43,7 +43,7 @@ public class TratamentoExcecoesTexto extends Exception {
 
 	public boolean trataExcecaoInserirConta(String conta) {
 
-		return conta != null && conta.matches("([0-9]{1,})-([1-2]{1})");
+		return conta != null && conta.matches("([0-9]{1,})-([1-3]{1})");
 	}
 	
 	public boolean trataExcecaoNomeDeUsuario(String nome) {

@@ -7,10 +7,7 @@ import erros.TratamentoExcecoesTexto;
 public class PessoaFisica extends Cliente {
 
 	//verificar a necessidade...
-	public PessoaFisica(String nome, String cpf, String endereco) {
-		super(nome, cpf, endereco);
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	@Override
 	public String cadastrarNome() {
@@ -99,5 +96,14 @@ public class PessoaFisica extends Cliente {
 
 		return insereConta;
 	}
+
+	@Override
+	public double escolheValorChequeEspecial(double valorSolicitado) {
+		
+		
+		
+		return valorSolicitado;
+	}
+	
 	
 }
