@@ -58,7 +58,7 @@ public class TratamentoExcecoesTexto extends Exception {
 	
 	public boolean trataExcecaoMenuBanco(String entraMenu) {
 
-		return entraMenu != null && entraMenu.matches("[1-7]{1}");
+		return entraMenu != null && entraMenu.matches("[1-9]{1}");
 	}
 	
 	public boolean trataExcecaoMenuSaque(String entraMenu) {
@@ -69,5 +69,15 @@ public class TratamentoExcecoesTexto extends Exception {
 	public boolean trataExcecaoConfirmaDados(String saidaSiatema) {
 
 		return saidaSiatema != null && saidaSiatema.matches("[1-2]{1}");
+	}
+	
+	public boolean trataExcecaoValoresInvestimento(String nome) {
+
+		return nome != null && nome.matches("[+]?([0-9]{1,12}[.])([0-9]{1,2})");
+	}
+	
+	public boolean trataExcecaoInsereMeses(String saidaSiatema) {
+
+		return saidaSiatema != null && saidaSiatema.matches("[1-9]{1,2}");
 	}
 }

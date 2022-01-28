@@ -1,5 +1,6 @@
 package contas;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class ContaCorrente extends Conta {
@@ -10,7 +11,13 @@ public class ContaCorrente extends Conta {
 		// TODO Auto-generated constructor stub
 	}
 
+	public ContaCorrente(double valorSaque, double valorDeposito, double valorTransferencia) {
+		super(valorSaque, valorDeposito, valorTransferencia);
+	}
+	
 	protected double valorChequeEspecial;
+	protected double saldoInicial;
+	
 
 	public double defineValorChequeEspecial(double valorRenda) {
 
@@ -57,7 +64,8 @@ public class ContaCorrente extends Conta {
 			}
 
 		}
-		return getSaldo();
+		return this.valorSaque = valorSaque;
+		
 	}
 
 	@Override
@@ -81,20 +89,26 @@ public class ContaCorrente extends Conta {
 			valorChequeEspecial += valorDeposito;
 
 		}
-
-		return getSaldo();
+		return this.valorDeposito = valorDeposito;
 	}
 
 	@Override
-	public double saldo(double valorChequeEspecial) {
+	public double saldo(double saldo) {
 
+		
+		
 		return saldo;
 	}
 
 	@Override
-	public String extrato() {
-		// TODO Auto-generated method stub
-		return null;
+	public void extrato() {
+		
+		System.out.println("Limite cheque especial...........................(-) = " + valorChequeEspecial);
+		System.out.println("Saldo............................................(=) = " + saldo);
+		System.out.println("Depósito.........................................(+) = " + valorDeposito);
+		System.out.println("Transferência....................................(-) = " + valorTransferencia);
+		System.out.println("Saque............................................(-) = " + valorSaque);
+		
 	}
 
 	@Override
@@ -132,7 +146,8 @@ public class ContaCorrente extends Conta {
 			}
 
 		}
-		return getSaldo();
+		return this.valorTransferencia = valorTransferencia;
+		
 	}
 
 	@Override
@@ -161,13 +176,33 @@ public class ContaCorrente extends Conta {
 
 	}
 
+	public void depositoSaldoInicial(double valorDeposito) {
+
+		
+			saldo += valorDeposito;
+
+	}
+	
 	public double getValorChequeEspecial() {
 
 		return valorChequeEspecial;
 	}
 
+	//Não remover...
 	public double setValorChequeEspecial(double valorChequeEspecial) {
 		return this.valorChequeEspecial = valorChequeEspecial;
+	}
+
+	public double getSaldoInicial() {
+		return saldoInicial;
+	}
+
+	public double getValorSaque() {
+		return valorSaque;
+	}
+
+	public double getValorDeposito() {
+		return valorDeposito;
 	}
 	
 }

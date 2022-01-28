@@ -2,11 +2,11 @@ package contas;
 
 public enum TiposInvestimentos {
 
-	GOLD(0.5),
-	PLATINUM(1),
-	BLACK(1.5);
+	GOLD(0.08),
+	PLATINUM(0.10),
+	BLACK(0.15);
 
-	private final double tiposInvestimentos;
+	private double tiposInvestimentos;
 	
 	TiposInvestimentos(double tiposInvestimentos) {
 		this.tiposInvestimentos = tiposInvestimentos;

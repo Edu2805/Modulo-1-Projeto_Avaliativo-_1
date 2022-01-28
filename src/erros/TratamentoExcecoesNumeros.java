@@ -5,17 +5,21 @@ import java.util.Scanner;
 
 public class TratamentoExcecoesNumeros {
 
-	protected double valorTratado;
-	protected boolean trataSintaxe;
 
-	public double verificaEntradaIncorreta() {
+	protected double valorTratadoDouble;
+	protected int valorTratadoInt;
+	protected boolean trataSintaxeDouble;
+	protected boolean trataSintaxeInt;
+
+	
+	public double verificaEntradaIncorretaDouble() {
 
 		Scanner sc = new Scanner(System.in);
 
 		while (true) {
 
 			try {
-				valorTratado = sc.nextDouble();
+				valorTratadoDouble = sc.nextDouble();
 				break;
 
 			} catch (InputMismatchException e) {
@@ -24,31 +28,100 @@ public class TratamentoExcecoesNumeros {
 			}
 		}
 		
-		return valorTratado;
+		return valorTratadoDouble;
 
 	}
+	
+	public int verificaEntradaIncorretaInt() {
 
-	public boolean trataValorDeEntrada(double valor) {
+		Scanner sc = new Scanner(System.in);
 
-		String rendaMensal = Double.toString(valor);
+		while (true) {
+
+			try {
+				valorTratadoInt = sc.nextInt();
+				break;
+
+			} catch (InputMismatchException e) {
+
+				break;
+			}
+		}
+		
+		return valorTratadoInt;
+
+	}
+	
+	public boolean trataValorDeEntradaDouble(double valor) {
+
+		String valorString = Double.toString(valor);
 		// String rendaMensal = new DecimalFormat("##############0.00").format(valor);
 
 		// com 00 após o ponto nao esta funcionando
-		trataSintaxe = rendaMensal != null && rendaMensal.matches("[+-]?([0-9]{1,12}[.])([0-9]{1,2})");
+		trataSintaxeDouble = valorString != null && valorString.matches("[+-]?([0-9]{1,12}[.])([0-9]{1,2})");
 
-		return trataSintaxe;
+		return trataSintaxeDouble;
+	}
+	
+	public boolean trataValorDeEntradaInt(int valor) {
+
+		String valorString = Double.toString(valor);
+		// String rendaMensal = new DecimalFormat("##############0.00").format(valor);
+
+		// com 00 após o ponto nao esta funcionando
+		trataSintaxeInt = valorString != null && valorString.matches("[0-9]");
+
+		return trataSintaxeInt;
+	}
+
+	
+
+	public boolean isTrataSintaxe() {
+		return trataSintaxeDouble;
+	}
+
+	public void setTrataSintaxe(boolean trataSintaxe) {
+		this.trataSintaxeDouble = trataSintaxe;
 	}
 
 	public double getValorTratado() {
-		return valorTratado;
+		return valorTratadoDouble;
 	}
 
 	public void setValorTratado(double valorTratado) {
-		this.valorTratado = valorTratado;
+		this.valorTratadoDouble = valorTratado;
 	}
 
-	public boolean isTrataSintaxe() {
-		return trataSintaxe;
+	public double getValorTratadoDouble() {
+		return valorTratadoDouble;
 	}
 
+	public void setValorTratadoDouble(double valorTratadoDouble) {
+		this.valorTratadoDouble = valorTratadoDouble;
+	}
+
+	public int getValorTratadoInt() {
+		return valorTratadoInt;
+	}
+
+	public void setValorTratadoInt(int valorTratadoInt) {
+		this.valorTratadoInt = valorTratadoInt;
+	}
+
+	public boolean isTrataSintaxeDouble() {
+		return trataSintaxeDouble;
+	}
+
+	public void setTrataSintaxeDouble(boolean trataSintaxeDouble) {
+		this.trataSintaxeDouble = trataSintaxeDouble;
+	}
+
+	public boolean isTrataSintaxeInt() {
+		return trataSintaxeInt;
+	}
+
+	public void setTrataSintaxeInt(boolean trataSintaxeInt) {
+		this.trataSintaxeInt = trataSintaxeInt;
+	}
+	
 }

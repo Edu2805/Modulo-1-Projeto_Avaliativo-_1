@@ -11,6 +11,9 @@ public abstract class Conta implements Operacao {
 	private String numeroConta;
 	private String agencia;
 	protected double saldo;
+	protected double valorSaque;
+	protected double valorDeposito;
+	double valorTransferencia;
 	public Conta(String nome, String cpf, double rendaMensal, String numeroConta, String agencia, double saldo) {
 		super();
 		this.nome = nome;
@@ -21,6 +24,12 @@ public abstract class Conta implements Operacao {
 		this.saldo = saldo;
 	}
 	
+	public Conta(double saque, double deposito, double transferencia) {
+		super();
+		this.valorSaque = saque;
+		this.valorDeposito = deposito;
+		this.valorTransferencia = transferencia;
+	}
 	
 	public String getNome() {
 		return nome;
