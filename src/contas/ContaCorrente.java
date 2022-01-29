@@ -17,6 +17,8 @@ public class ContaCorrente extends Conta {
 	
 	protected double valorChequeEspecial;
 	protected double saldoInicial;
+	protected double descontaSaldo;
+	protected double descontaSaque;
 	
 
 	public double defineValorChequeEspecial(double valorRenda) {
@@ -31,6 +33,8 @@ public class ContaCorrente extends Conta {
 	@Override
 	public double saque(double valorSaque) {
 
+		double descontaSaldo = 0.0;
+		
 		if (valorSaque <= saldo) {
 			saldo -= valorSaque;
 
@@ -38,7 +42,7 @@ public class ContaCorrente extends Conta {
 
 		} else if (valorSaque == saldo + valorChequeEspecial) {
 
-			double descontaSaldo = valorSaque - saldo;
+			descontaSaldo = valorSaque - saldo;
 			valorSaque -= descontaSaldo;
 			saldo -= valorSaque;
 
@@ -47,7 +51,7 @@ public class ContaCorrente extends Conta {
 		} else if (valorSaque >= saldo) {
 			System.out.println("\nVocê está usando o seu limite de cheque especial\n");
 
-			double descontaSaldo = valorSaque - saldo;
+			descontaSaldo = valorSaque - saldo;
 			valorSaque -= descontaSaldo;
 			saldo -= valorSaque;
 
@@ -60,10 +64,13 @@ public class ContaCorrente extends Conta {
 
 				valorChequeEspecial += descontaSaldo;
 				saldo += valorSaque;
-
+				//ver problema pra limpar transferencia e saldo...
 			}
 
 		}
+		
+		this.descontaSaque = descontaSaldo;
+		
 		return this.valorSaque = valorSaque;
 		
 	}
@@ -106,22 +113,24 @@ public class ContaCorrente extends Conta {
 		System.out.println("Limite cheque especial...........................(-) = " + valorChequeEspecial);
 		System.out.println("Saldo............................................(=) = " + saldo);
 		System.out.println("Depósito.........................................(+) = " + valorDeposito);
-		System.out.println("Transferência....................................(-) = " + valorTransferencia);
-		System.out.println("Saque............................................(-) = " + valorSaque);
+		System.out.println("Transferência....................................(-) = " + (valorTransferencia + this.descontaSaldo));
+		System.out.println("Saque............................................(-) = " + (valorSaque + this.descontaSaque));
 		
 	}
 
 	@Override
 	public double transferir(double valorTransferencia) {
 
+		double descontaSaldo = 0.0;
+		
 		if (valorTransferencia <= saldo) {
 			saldo -= valorTransferencia;
 
-			System.out.println("\nSaque realizado com sucesso!\n");
+			System.out.println("\nTransferencia realizado com sucesso!\n");
 
 		} else if (valorTransferencia == saldo + valorChequeEspecial) {
 
-			double descontaSaldo = valorTransferencia - saldo;
+			descontaSaldo = valorTransferencia - saldo;
 			valorTransferencia -= descontaSaldo;
 			saldo -= valorTransferencia;
 
@@ -130,7 +139,7 @@ public class ContaCorrente extends Conta {
 		} else if (valorTransferencia >= saldo) {
 			System.out.println("\nVocê está usando o seu limite de cheque especial\n");
 
-			double descontaSaldo = valorTransferencia - saldo;
+			descontaSaldo = valorTransferencia - saldo;
 			valorTransferencia -= descontaSaldo;
 			saldo -= valorTransferencia;
 
@@ -146,6 +155,8 @@ public class ContaCorrente extends Conta {
 			}
 
 		}
+		this.descontaSaldo = descontaSaldo;
+		
 		return this.valorTransferencia = valorTransferencia;
 		
 	}

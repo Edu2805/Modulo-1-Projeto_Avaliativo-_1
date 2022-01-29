@@ -14,6 +14,9 @@ public abstract class Conta implements Operacao {
 	protected double valorSaque;
 	protected double valorDeposito;
 	double valorTransferencia;
+	
+	
+	
 	public Conta(String nome, String cpf, double rendaMensal, String numeroConta, String agencia, double saldo) {
 		super();
 		this.nome = nome;
@@ -63,6 +66,9 @@ public abstract class Conta implements Operacao {
 		return saldo;
 	}
 
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
+	}
 
 	@Override
 	public String toString() {

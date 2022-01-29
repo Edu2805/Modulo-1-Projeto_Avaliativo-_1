@@ -13,7 +13,7 @@ public class TratamentoExcecoesTexto extends Exception {
 
 	public boolean trataExcecaoEntradaMenu(String entraMenu) {
 
-		return entraMenu != null && entraMenu.matches("[1-3]{1}");
+		return entraMenu != null && entraMenu.matches("[1-4]{1}");
 	}
 
 	public boolean trataExcecaoNomeClientes(String nome) {
@@ -29,6 +29,11 @@ public class TratamentoExcecoesTexto extends Exception {
 	public boolean trataExcecaoEscolhaAgenciaCadastro(String escolheAgencia) {
 
 		return escolheAgencia != null && escolheAgencia.matches("[1-2]{1}");
+	}
+	
+	public boolean trataExcecaoEscolhaContaCadastro(String escolheAgencia) {
+
+		return escolheAgencia != null && escolheAgencia.matches("[1-3]{1}");
 	}
 
 	public boolean trataExcecaoSaidaSistema(String saidaSiatema) {
@@ -79,5 +84,15 @@ public class TratamentoExcecoesTexto extends Exception {
 	public boolean trataExcecaoInsereMeses(String saidaSiatema) {
 
 		return saidaSiatema != null && saidaSiatema.matches("[1-9]{1,2}");
+	}
+	
+	public boolean trataExcecaoSaidaPlataforma(String saidaSiatema) {
+
+		return saidaSiatema != null && saidaSiatema.matches("[1-3]{1}");
+	}
+	
+	public boolean trataExcecaoMenuGerencial(String saidaSiatema) {
+
+		return saidaSiatema != null && saidaSiatema.matches("[1-9]{1}");
 	}
 }

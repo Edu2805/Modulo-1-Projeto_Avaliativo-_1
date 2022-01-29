@@ -51,7 +51,7 @@ public class ContaInvestimento extends Conta {
 	@Override
 	public double saldo(double saldo) {
 
-		return saldo;
+		return this.saldo = saldo;
 	}
 
 	@Override

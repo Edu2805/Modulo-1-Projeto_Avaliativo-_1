@@ -1,6 +1,5 @@
 package operacoes;
 
-import java.util.List;
 
 public interface Operacao {
 

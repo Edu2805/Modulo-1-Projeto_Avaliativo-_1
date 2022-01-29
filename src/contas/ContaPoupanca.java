@@ -26,7 +26,7 @@ public class ContaPoupanca extends Conta {
 		} else {
 			System.out.println("\nVocê não possui saldo suficiente para realizar esta operação!\n");
 		}
-		return valorSaque;
+		return this.valorSaque = valorSaque;
 		
 
 	}
@@ -34,6 +34,8 @@ public class ContaPoupanca extends Conta {
 	@Override
 	public double deposito(double valorDeposito, double limiteAprovado) {
 
+		this.valorDeposito = valorDeposito;
+		
 		return saldo += valorDeposito;
 
 	}
@@ -41,11 +43,16 @@ public class ContaPoupanca extends Conta {
 	@Override
 	public double saldo(double saldo) {
 
-		return saldo;
+		return this.saldo = saldo;
 	}
 
 	public void extrato() {
-
+		
+		System.out.println("Saldo............................................(=) = " + saldo);
+		System.out.println("Depósito.........................................(+) = " + valorDeposito);
+		System.out.println("Transferência....................................(-) = " + valorTransferencia);
+		System.out.println("Saque............................................(-) = " + valorSaque);
+		
 	}
 
 	@Override
@@ -59,7 +66,7 @@ public class ContaPoupanca extends Conta {
 		} else {
 			System.out.println("\nVocê não possui saldo suficiente para realizar esta operação!\n");
 		}
-		return valorTransferencia;
+		return this.valorTransferencia = valorTransferencia;
 		
 
 	}
