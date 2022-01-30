@@ -1,6 +1,5 @@
 package contas;
 
-import java.util.List;
 import java.util.Scanner;
 
 import erros.TratamentoExcecoesTexto;

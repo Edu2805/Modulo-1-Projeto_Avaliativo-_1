@@ -7,10 +7,9 @@ public interface CadastroDaConta {
 	public String cadastrarEndereco();
 	public String cadastrarDataNascimento();
 	public String cadastrarLogin();
-	public String cadastrarSenha();
 	public double cadastrarRendaMensal();
 	public String escolheAgencia();
 	public String insereNumeroConta();
 	public String escolheTipoConta();
-	public double escolheValorChequeEspecial(double valorSolicitado);
+
 }

@@ -10,7 +10,7 @@ public class TratamentoExcecoesTexto extends Exception {
 	public TratamentoExcecoesTexto(String error) {
 		super(error);
 	}
-
+	
 	public boolean trataExcecaoEntradaMenu(String entraMenu) {
 
 		return entraMenu != null && entraMenu.matches("[1-4]{1}");

@@ -2,8 +2,6 @@ package clientes;
 
 import java.util.Scanner;
 
-import erros.TratamentoExcecoesTexto;
-
 public class PessoaFisica extends Cliente {
 
 	//verificar a necessidade...
@@ -50,11 +48,6 @@ public class PessoaFisica extends Cliente {
 		return login;
 	}
 
-	@Override
-	public String cadastrarSenha() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public double cadastrarRendaMensal() {
@@ -96,14 +89,5 @@ public class PessoaFisica extends Cliente {
 
 		return insereConta;
 	}
-
-	@Override
-	public double escolheValorChequeEspecial(double valorSolicitado) {
-		
-		
-		
-		return valorSolicitado;
-	}
-	
 	
 }

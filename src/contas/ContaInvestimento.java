@@ -1,11 +1,7 @@
 package contas;
 
-import java.util.List;
 import java.util.Scanner;
-
-import agencias.Agencia;
 import erros.TratamentoExcecoesTexto;
-import lombok.Data;
 
 public class ContaInvestimento extends Conta {
 

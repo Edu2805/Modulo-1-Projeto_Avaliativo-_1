@@ -23,7 +23,7 @@ public class TratamentoExcecoesNumeros {
 				break;
 
 			} catch (InputMismatchException e) {
-
+				
 				break;
 			}
 		}
@@ -52,14 +52,15 @@ public class TratamentoExcecoesNumeros {
 
 	}
 	
-	public boolean trataValorDeEntradaDouble(double valor) {
-
-		String valorString = Double.toString(valor);
+	
+	public boolean trataValorDeEntradaDouble(double valorTratadoDouble) {
+		
+		String valorString = Double.toString(valorTratadoDouble);
 		// String rendaMensal = new DecimalFormat("##############0.00").format(valor);
 
 		// com 00 após o ponto nao esta funcionando
-		trataSintaxeDouble = valorString != null && valorString.matches("[+-]?([0-9]{1,12}[.])([0-9]{1,2})");
-
+		trataSintaxeDouble = valorString != null && valorString.matches("([0-9]{1,12}[.])([0-9]{1,2})");
+		
 		return trataSintaxeDouble;
 	}
 	

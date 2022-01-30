@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -34,10 +35,12 @@ public class ShowMenu {
 
 	public void menuCliente() {
 
-		Scanner sc = new Scanner(System.in);
 		Locale.setDefault(Locale.US);
+		
+		Scanner sc = new Scanner(System.in);
+		
 
-		String acessoSistema = null;
+		
 		Set<ContaCorrente> listaContaCorrenteClientes = new LinkedHashSet<ContaCorrente>();
 		Set<ContaPoupanca> listaContaPoupancaClientes = new LinkedHashSet<ContaPoupanca>();
 		Set<ContaInvestimento> listaContaInvestimentoClientes = new LinkedHashSet<ContaInvestimento>();
@@ -53,8 +56,6 @@ public class ShowMenu {
 		List<TransacoesClientes> listaTransacoesClientes = new ArrayList<>();
 		// List<ChaveLoginConta> listaChavesLoginsUsuarios = new ArrayList<>(); para uso
 		// futuro
-
-		Set<PessoaFisica> listaDeclientes = new LinkedHashSet<PessoaFisica>();
 
 		TratamentoExcecoesTexto trataExcecoesEntradaTexto = new TratamentoExcecoesTexto(null);
 		TratamentoExcecoesNumeros trataExcecoesEntradaNumeros = new TratamentoExcecoesNumeros();
@@ -75,11 +76,10 @@ public class ShowMenu {
 		ChaveLoginConta validaLoginUsuario = new ChaveLoginConta();
 		ValidaCpf validacaoCpf = new ValidaCpf();
 
-		int secaoCliente = 0;
+		
 		int contCorrente = 0;
 		int contPoupanca = 0;
 		int contInvestimento = 0;
-		int contChequeEspecial = 0;
 
 		double rendaCadastroCliente = 0;
 		double depositoInicial = 0;
@@ -96,7 +96,6 @@ public class ShowMenu {
 		String opcoesMenuBanco = null;
 		String escolheAgencia = null;
 		String escolheConta = null;
-		String escolheChequeEspecial = null;
 		String escolheContaMenuSaque = null;
 		String escolheMenuInvestimentoPoupanca = null;
 		String nomeCadastroCliente = null;
@@ -1136,7 +1135,8 @@ public class ShowMenu {
 										"\nEscolha qual a conta você deseja realizar o saque\n1- CORRENTE\n2- POUPANCA\n3- INVESTIMENTO\n-->");
 
 								escolheContaMenuSaque = sc.nextLine();
-
+						
+								System.out.println("Pressione ENTER");
 								while (true) {
 									try {
 
@@ -1324,6 +1324,7 @@ public class ShowMenu {
 
 									escolheContaMenuSaque = sc.nextLine();
 
+									System.out.println("Pressione ENTER");
 									while (true) {
 										try {
 
@@ -1899,6 +1900,7 @@ public class ShowMenu {
 
 								String escolheContaMenu = sc.nextLine();
 
+								System.out.println("Pressione ENTER");
 								while (true) {
 									try {
 
@@ -2320,8 +2322,6 @@ public class ShowMenu {
 						break;
 //####################################################################################################################################################################
 					}
-
-					secaoCliente++;
 
 					if (Integer.parseInt(sairMenuPlataforma) == 1) {// problema....
 
