@@ -12,4 +12,12 @@ public class ChaveLoginConta {
 			return false;
 		}
 	}
+	
+	public String trataChaveAlteracadastro(String subChave) {
+		
+		
+		String separa [] = subChave.split("-");
+		
+		return separa[1];
+	}
 }

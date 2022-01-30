@@ -3,6 +3,8 @@ package contas;
 import java.util.List;
 import java.util.Scanner;
 
+import erros.TratamentoExcecoesTexto;
+
 public class ContaCorrente extends Conta {
 
 	public ContaCorrente(String nome, String cpf, double rendaMensal, String numeroConta, String agencia,
@@ -14,12 +16,11 @@ public class ContaCorrente extends Conta {
 	public ContaCorrente(double valorSaque, double valorDeposito, double valorTransferencia) {
 		super(valorSaque, valorDeposito, valorTransferencia);
 	}
-	
+
 	protected double valorChequeEspecial;
 	protected double saldoInicial;
 	protected double descontaSaldo;
 	protected double descontaSaque;
-	
 
 	public double defineValorChequeEspecial(double valorRenda) {
 
@@ -34,7 +35,7 @@ public class ContaCorrente extends Conta {
 	public double saque(double valorSaque) {
 
 		double descontaSaldo = 0.0;
-		
+
 		if (valorSaque <= saldo) {
 			saldo -= valorSaque;
 
@@ -64,15 +65,15 @@ public class ContaCorrente extends Conta {
 
 				valorChequeEspecial += descontaSaldo;
 				saldo += valorSaque;
-				//ver problema pra limpar transferencia e saldo...
+				// ver problema pra limpar transferencia e saldo...
 			}
 
 		}
-		
+
 		this.descontaSaque = descontaSaldo;
-		
+
 		return this.valorSaque = valorSaque;
-		
+
 	}
 
 	@Override
@@ -102,27 +103,27 @@ public class ContaCorrente extends Conta {
 	@Override
 	public double saldo(double saldo) {
 
-		
-		
 		return saldo;
 	}
 
 	@Override
 	public void extrato() {
-		
+
 		System.out.println("Limite cheque especial...........................(-) = " + valorChequeEspecial);
 		System.out.println("Saldo............................................(=) = " + saldo);
 		System.out.println("Depósito.........................................(+) = " + valorDeposito);
-		System.out.println("Transferência....................................(-) = " + (valorTransferencia + this.descontaSaldo));
-		System.out.println("Saque............................................(-) = " + (valorSaque + this.descontaSaque));
-		
+		System.out.println(
+				"Transferência....................................(-) = " + (valorTransferencia + this.descontaSaldo));
+		System.out
+				.println("Saque............................................(-) = " + (valorSaque + this.descontaSaque));
+
 	}
 
 	@Override
 	public double transferir(double valorTransferencia) {
 
 		double descontaSaldo = 0.0;
-		
+
 		if (valorTransferencia <= saldo) {
 			saldo -= valorTransferencia;
 
@@ -156,9 +157,9 @@ public class ContaCorrente extends Conta {
 
 		}
 		this.descontaSaldo = descontaSaldo;
-		
+
 		return this.valorTransferencia = valorTransferencia;
-		
+
 	}
 
 	@Override
@@ -181,25 +182,118 @@ public class ContaCorrente extends Conta {
 		return senhaDeUsuario;
 	}
 
-	@Override
-	public void alteraDadosCadastrais(String nome, String renda, String nomeUsuario, String senha) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void depositoSaldoInicial(double valorDeposito) {
 
-		
-			saldo += valorDeposito;
+		saldo += valorDeposito;
 
 	}
-	
+
+	@Override
+	public String alteraDadosCadastrais(String nome, String nomeDeUsuario, String senha) {
+
+		TratamentoExcecoesTexto trataExcecoesEntradaTexto = new TratamentoExcecoesTexto(null);
+		String opcoesMenu = null;
+		String alteraChave = null;
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("#########################################################");
+		System.out.println("#               O QUE VOCE DESEJA ALTERAR?              #");
+		System.out.print("#########################################################\n");
+		System.out.println("#########################################################");
+		System.out.println("#                                                       #");
+		System.out.println("#           DIGITE 1- NOME DE USUÁRIO                   #");
+		System.out.println("#           DIGITE 2- SENHA                             #");
+		System.out.println("#                                                       #");
+		System.out.println("#########################################################");
+		System.out.print("-->");
+
+		boolean validacaoMenu = false;
+		
+		while (!validacaoMenu) {
+
+			opcoesMenu = sc.nextLine();
+			try {
+
+				if (!trataExcecoesEntradaTexto.trataExcecaoEntradaMenu(opcoesMenu)) {
+					throw new TratamentoExcecoesTexto("Digite uma opção válida!");
+				} else {
+
+					break;
+				}
+
+			} catch (TratamentoExcecoesTexto e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		}
+
+		switch (Integer.parseInt(opcoesMenu)) {
+
+		case 1:
+
+			while (!validacaoMenu) {
+				System.out.print("\nInsira o seu nome de usuário: ");
+				nomeDeUsuario = sc.nextLine();
+
+				try {
+
+					if (!trataExcecoesEntradaTexto.trataExcecaoNomeDeUsuario(nomeDeUsuario)) {
+						throw new TratamentoExcecoesTexto("Insira corretamente o seu nome de usuário!");
+
+					} else {
+
+						break;
+					}
+
+				} catch (TratamentoExcecoesTexto e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				}
+			}
+
+			break;
+		case 2:
+
+			while (!validacaoMenu) {
+
+				System.out.print("\nInsira a sua senha de QUATRO LETRAS E DOIS NÚMEROS: ");
+				senha = sc.nextLine();
+
+				try {
+
+					if (!trataExcecoesEntradaTexto.trataExcecaoSenhaDeUsuario(senha)) {
+						throw new TratamentoExcecoesTexto(
+
+								"Formato inválido, digite uma senha que contenha quatro letras e dois numeros!");
+					} else {
+
+						break;
+					}
+
+				} catch (TratamentoExcecoesTexto e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				}
+
+			}
+
+			break;
+		
+		}
+
+		System.out.println("\nConfira os seus dados\n");
+		System.out.println("Nome: " + nome + "\nNomeUsuário: " + nomeDeUsuario + "\nSenha: " + senha + "\n");
+		
+		alteraChave = nome.concat("-").concat(nomeDeUsuario).concat(senha);
+
+		return alteraChave;
+
+	}
+
 	public double getValorChequeEspecial() {
 
 		return valorChequeEspecial;
 	}
 
-	//Não remover...
+	// Não remover...
 	public double setValorChequeEspecial(double valorChequeEspecial) {
 		return this.valorChequeEspecial = valorChequeEspecial;
 	}
@@ -215,5 +309,5 @@ public class ContaCorrente extends Conta {
 	public double getValorDeposito() {
 		return valorDeposito;
 	}
-	
+
 }

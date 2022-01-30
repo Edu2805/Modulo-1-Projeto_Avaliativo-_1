@@ -92,8 +92,102 @@ public class ContaPoupanca extends Conta {
 	}
 
 	@Override
-	public void alteraDadosCadastrais(String nome, String renda, String nomeUsuario, String senha) {
-		// TODO Auto-generated method stub
+	public String alteraDadosCadastrais(String nome, String nomeDeUsuario, String senha) {
+
+		TratamentoExcecoesTexto trataExcecoesEntradaTexto = new TratamentoExcecoesTexto(null);
+		String opcoesMenu = null;
+		String alteraChave = null;
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("#########################################################");
+		System.out.println("#               O QUE VOCE DESEJA ALTERAR?              #");
+		System.out.print("#########################################################\n");
+		System.out.println("#########################################################");
+		System.out.println("#                                                       #");
+		System.out.println("#           DIGITE 1- NOME DE USUÁRIO                   #");
+		System.out.println("#           DIGITE 2- SENHA                             #");
+		System.out.println("#                                                       #");
+		System.out.println("#########################################################");
+		System.out.print("-->");
+
+		boolean validacaoMenu = false;
+		
+		while (!validacaoMenu) {
+
+			opcoesMenu = sc.nextLine();
+			try {
+
+				if (!trataExcecoesEntradaTexto.trataExcecaoEntradaMenu(opcoesMenu)) {
+					throw new TratamentoExcecoesTexto("Digite uma opção válida!");
+				} else {
+
+					break;
+				}
+
+			} catch (TratamentoExcecoesTexto e) {
+				System.out.println("\n" + e.getMessage() + "\n");
+			}
+		}
+
+		switch (Integer.parseInt(opcoesMenu)) {
+
+		case 1:
+
+			while (!validacaoMenu) {
+				System.out.print("\nInsira o seu nome de usuário: ");
+				nomeDeUsuario = sc.nextLine();
+
+				try {
+
+					if (!trataExcecoesEntradaTexto.trataExcecaoNomeDeUsuario(nomeDeUsuario)) {
+						throw new TratamentoExcecoesTexto("Insira corretamente o seu nome de usuário!");
+
+					} else {
+
+						break;
+					}
+
+				} catch (TratamentoExcecoesTexto e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				}
+			}
+
+			break;
+		case 2:
+
+			while (!validacaoMenu) {
+
+				System.out.print("\nInsira a sua senha de QUATRO LETRAS E DOIS NÚMEROS: ");
+				senha = sc.nextLine();
+
+				try {
+
+					if (!trataExcecoesEntradaTexto.trataExcecaoSenhaDeUsuario(senha)) {
+						throw new TratamentoExcecoesTexto(
+
+								"Formato inválido, digite uma senha que contenha quatro letras e dois numeros!");
+					} else {
+
+						break;
+					}
+
+				} catch (TratamentoExcecoesTexto e) {
+					System.out.println("\n" + e.getMessage() + "\n");
+				}
+
+			}
+
+			break;
+		
+		}
+
+		System.out.println("\nConfira os seus dados\n");
+		System.out.println("Nome: " + nome + "\nNomeUsuário: " + nomeDeUsuario + "\nSenha: " + senha + "\n");
+		
+		alteraChave = nome.concat("-").concat(nomeDeUsuario).concat(senha);
+
+		return alteraChave;
 
 	}
 

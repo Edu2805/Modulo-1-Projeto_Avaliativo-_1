@@ -9,6 +9,6 @@ public interface Operacao {
 	public double transferir(double valorTransferencia);
 	public String cadastroNomeDeUsuario();
 	public String cadastroDeSenhaUsuario();
-	public void alteraDadosCadastrais(String nome, String renda, String nomeUsuario, String senha);
+	public String alteraDadosCadastrais(String nome, String nomeDeUsuario, String senha);
 	public void extrato();
 }
