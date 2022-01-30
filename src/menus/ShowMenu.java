@@ -20,6 +20,7 @@ import contas.ChaveLoginConta;
 import contas.ContaCorrente;
 import contas.ContaInvestimento;
 import contas.ContaPoupanca;
+import contas.ValidaCpf;
 import erros.TratamentoExcecoesNumeros;
 import erros.TratamentoExcecoesTexto;
 import relatorios.ContaSaldoNegativo;
@@ -72,6 +73,7 @@ public class ShowMenu {
 		DataDoSistema verificaFimDeSemana = new DataDoSistema();
 		DataDoSistema verificaDataAnteriorSistema = new DataDoSistema();
 		ChaveLoginConta validaLoginUsuario = new ChaveLoginConta();
+		ValidaCpf validacaoCpf = new ValidaCpf();
 
 		int secaoCliente = 0;
 		int contCorrente = 0;
@@ -196,7 +198,7 @@ public class ShowMenu {
 
 						try {
 
-							if (!trataExcecoesEntradaTexto.trataExcecaoCpfClientes(cpfCadastroCliente)) {
+							if (!trataExcecoesEntradaTexto.trataExcecaoCpfClientes(cpfCadastroCliente) || !validacaoCpf.validacaoCpf(cpfCadastroCliente)) {
 								throw new TratamentoExcecoesTexto("Digite um numero de CPF válido com 11 dígitos!");
 							} else {
 
