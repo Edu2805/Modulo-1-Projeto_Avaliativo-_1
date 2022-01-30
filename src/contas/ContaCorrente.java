@@ -182,7 +182,7 @@ public class ContaCorrente extends Conta {
 	}
 
 	@Override
-	public void alteraDadosCadastrais() {
+	public void alteraDadosCadastrais(String nome, String renda, String nomeUsuario, String senha) {
 		// TODO Auto-generated method stub
 
 	}

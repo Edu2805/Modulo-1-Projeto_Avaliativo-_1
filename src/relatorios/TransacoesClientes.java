@@ -26,23 +26,35 @@ public class TransacoesClientes {
 
 	public void transacaoSaque(List<TransacoesClientes> listaTransacoesClientes) {
 		
-		
-		System.out.println("############### CONTAS COM SALDO NEGATIVO ####################");
 
 		System.out.println("--------------------------------------------------------------");
 		
-		for (TransacoesClientes nomeCliente : listaTransacoesClientes) {
+		for (int i = 0; i < listaTransacoesClientes.size(); i++) {
 			
-			System.out.println("Nome: " + nomeCliente.nome + "Agência: " + nomeCliente.agencia + ", Conta: " + nomeCliente.chaveConta);
+			System.out.println("Nome: " + listaTransacoesClientes.get(i).nome + ", Agência: " + listaTransacoesClientes.get(i).agencia + ", Conta: " + listaTransacoesClientes.get(i).chaveConta);
 			
 			
-			for (TransacoesClientes dadosTransacoes : listaTransacoesClientes) {
-
+			for (int j = 0; j < listaTransacoesClientes.size(); j++) {
 				
-
+				if(i == j) {
+					
+					System.out.println("Depósito inicial: " + listaTransacoesClientes.get(j).depositoIncial + ", Depósito: " + listaTransacoesClientes.get(j).deposito 
+							+ ", Saque: " + listaTransacoesClientes.get(j).saque + ", Transferência: " + listaTransacoesClientes.get(j).transferencia);
+					
+					
+				} else if(j > i) {
+					
+					 //evita que o usuário imediatamente anterior receba dados do usuário seguinte, por isso esse campo fica vazio
+				}
+					
+					
+					
+					
+					
 			}
-			
 		}
+		
+		System.out.println("\n");
 		
 		System.out.println("--------------------------------------------------------------\n");
 	}	

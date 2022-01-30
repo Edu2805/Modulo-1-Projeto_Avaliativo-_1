@@ -63,7 +63,7 @@ public class TratamentoExcecoesTexto extends Exception {
 	
 	public boolean trataExcecaoMenuBanco(String entraMenu) {
 
-		return entraMenu != null && entraMenu.matches("[1-9]{1}");
+		return entraMenu != null && entraMenu.matches("^([1-9]|10{1})$");
 	}
 	
 	public boolean trataExcecaoMenuSaque(String entraMenu) {
